@@ -36,7 +36,12 @@ locations before running the analysis.
 
 ## RData Dependencies From Script 3 Onward
 
-For the current Panel B scripts and Codex helper scripts, the main required data file is:
+For the current `3.1 Panel B...` scripts, the required data files are:
+
+- `RData/Entire.RData`
+- `Quarterly_dataset1.RData`
+
+For the Codex helper/search scripts, the main required data file is:
 
 - `Quarterly_dataset1.RData`
 
