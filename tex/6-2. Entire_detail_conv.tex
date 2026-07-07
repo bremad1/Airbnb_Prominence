@@ -1,0 +1,87 @@
+\begin{table}[]
+\TABLE
+{Entire Room Regression Results (Ex==1) \label{result_detail1}}{\begin{tabular}{lcccccc}
+\hline
+Condition & (1) & (2) & (3) & (4) & (5) & (6) \\ \hline
+\\ 
+\multicolumn{5}{l}{\textbf{EX\_Super==1}} \\ 
+\\ 
+FULL & -0.053*** & -0.026** & -0.052*** & -0.033*** & -0.023** & -0.095*** \\ 
+&(0.017)&(0.01) & (0.016)&(0.012)&(0.01)&(0.024)\\ 
+& [0.1645 0.1056] & & & & & \\ 
+\textit{obs} & 3249 & 7533 & 3138 & 5033 & 7091 & 3372 \\ 
+Q1Q2 & -0.061** & -0.037** & -0.049** & -0.029* & -0.02 & -0.081*** \\ 
+&(0.028)&(0.018) & (0.022)&(0.015)&(0.013)&(0.03)\\ 
+& [0.1263 0.1262] & & & & & \\ 
+\textit{obs} & 2073 & 6129 & 1623 & 2555 & 3485 & 1619 \\ 
+Q2Q3 & -0.048** & -0.028* & -0.054** & -0.037* & -0.028* & -0.121*** \\ 
+&(0.025)&(0.015) & (0.027)&(0.019)&(0.017)&(0.04)\\ 
+& [0.2095 0.1429] & & & & & \\ 
+\textit{obs} & 2516 & 6684 & 1590 & 2661 & 3724 & 1713 \\ 
+Q3Q4 & -0.076** & -0.036* & -0.067*** & -0.041** & -0.029* & -0.126*** \\ 
+&(0.029)&(0.019) & (0.026)&(0.019)&(0.017)&(0.042)\\ 
+& [0.1467 0.0877] & & & & & \\ 
+\textit{obs} & 1335 & 3065 & 1515 & 2478 & 3606 & 1313 \\ 
+Q1 & -0.04* & -0.025 & -0.039* & -0.027* & -0.018 & -0.031 \\ 
+&(0.023)&(0.016) & (0.021)&(0.016)&(0.014)&(0.026)\\ 
+& [0.1626 0.0817] & & & & & \\ 
+\textit{obs} & 687 & 1345 & 823 & 1212 & 1633 & 750 \\ 
+Q2 & -0.056 & -0.028 & -0.059 & -0.037 & -0.029 & -0.132** \\ 
+&(0.04)&(0.023) & (0.045)&(0.029)&(0.025)&(0.055)\\ 
+& [0.2446 0.1178] & & & & & \\ 
+\textit{obs} & 949 & 2136 & 800 & 1343 & 1852 & 957 \\ 
+Q3 & -0.07 & -0.033 & -0.047 & -0.033 & -0.024 & -0.166* \\ 
+&(0.08)&(0.038) & (0.035)&(0.028)&(0.024)&(0.092)\\ 
+& [0.0688 0.0784] & & & & & \\ 
+\textit{obs} & 546 & 1395 & 790 & 1318 & 1872 & 491 \\ 
+Q4 & -0.129*** & -0.043 & -0.091** & -0.05* & -0.033 & -0.163** \\ 
+&(0.046)&(0.03) & (0.038)&(0.027)&(0.023)&(0.065)\\ 
+& [0.106 0.0809] & & & & & \\ 
+\textit{obs} & 577 & 1270 & 725 & 1160 & 1734 & 636 \\ 
+\hline 
+\end{tabular}}{\textit{Note.} The first column reports the estimates obtained using the MSE-optimal bandwidth calculated separately for each side of the cutoff using time fixed effect. The second column displays results based on twice the MSE-optimal bandwidth. The third to fifth columns report estimates using asymmetric bandwidth choices: 0.2 (left) and 0.1 (right), 0.3 (left) and 0.15 (right), and 0.4 (left) and 0.2 (right), respectively. Last column shows the estimation results using MSE-optimal bandwidth calculated separately for each side of the cutoff without using time fixed effect.}
+\end{table}
+
+\begin{table}[]
+\TABLE
+{Entire Room Regression Results (Ex==0) \label{result_detail2}}{\begin{tabular}{lcccccc}
+\hline
+Condition & (1) & (2) & (3) & (4) & (5) & (6) \\ \hline
+\\ 
+\multicolumn{5}{l}{\textbf{EX\_Super==0}} \\ 
+\\ 
+FULL & 0.09*** & 0.053*** & 0.103*** & 0.068*** & 0.057*** & 0.288*** \\ 
+&(0.026)&(0.017) & (0.026)&(0.019)&(0.016)&(0.049)\\ 
+& [0.2185 0.0846] & & & & & \\ 
+\textit{obs} & 6827 & 9723 & 6519 & 8630 & 9547 & 5384 \\ 
+Q1Q2 & 0.03 & 0.008 & 0.062*** & 0.03 & 0.017 & 0.024 \\ 
+&(0.021)&(0.017) & (0.021)&(0.018)&(0.016)&(0.024)\\ 
+& [0.2453 0.0793] & & & & & \\ 
+\textit{obs} & 3718 & 5513 & 3535 & 4798 & 5291 & 4657 \\ 
+Q2Q3 & 0.101*** & 0.071*** & 0.121*** & 0.093*** & 0.081*** & 0.157*** \\ 
+&(0.027)&(0.02) & (0.03)&(0.024)&(0.021)&(0.035)\\ 
+& [0.2573 0.107] & & & & & \\ 
+\textit{obs} & 3931 & 5132 & 3426 & 4467 & 4888 & 4323 \\ 
+Q3Q4 & 0.253*** & 0.123*** & 0.289*** & 0.165*** & 0.14*** & 0.765** \\ 
+&(0.097)&(0.036) & (0.108)&(0.05)&(0.038)&(0.367)\\ 
+& [0.2543 0.0855] & & & & & \\ 
+\textit{obs} & 3374 & 4483 & 2984 & 3832 & 4256 & 2784 \\ 
+Q1 & 0.013 & 0.001 & 0.045 & 0.015 & 0.007 & 0.004 \\ 
+&(0.026)&(0.02) & (0.029)&(0.024)&(0.021)&(0.03)\\ 
+& [0.2628 0.0945] & & & & & \\ 
+\textit{obs} & 2016 & 2928 & 1672 & 2360 & 2656 & 2449 \\ 
+Q2 & 0.017 & 0.002 & 0.064* & 0.04 & 0.026 & 0.042 \\ 
+&(0.029)&(0.025) & (0.033)&(0.029)&(0.027)&(0.036)\\ 
+& [0.3485 0.1057] & & & & & \\ 
+\textit{obs} & 2420 & 2870 & 1863 & 2438 & 2635 & 2464 \\ 
+Q3 & 0.208*** & 0.146*** & 0.213*** & 0.16*** & 0.141*** & 0.308*** \\ 
+&(0.054)&(0.033) & (0.054)&(0.039)&(0.032)&(0.078)\\ 
+& [0.2342 0.0894] & & & & & \\ 
+\textit{obs} & 1639 & 2287 & 1563 & 2029 & 2253 & 1802 \\ 
+Q4 & -0.133 & 0.015 & -0.055 & 0.241 & 0.132 & 0.135 \\ 
+&(0.5)&(0.1) & (0.195)&(0.433)&(0.177)&(0.381)\\ 
+& [0.2702 0.0962] & & & & & \\ 
+\textit{obs} & 1646 & 2201 & 1421 & 1803 & 2003 & 1644 \\ 
+\hline 
+ \end{tabular}}{\textit{Note.} The first column reports the estimates obtained using the MSE-optimal bandwidth calculated separately for each side of the cutoff using time fixed effect. The second column displays results based on twice the MSE-optimal bandwidth. The third to fifth columns report estimates using asymmetric bandwidth choices: 0.2 (left) and 0.1 (right), 0.3 (left) and 0.15 (right), and 0.4 (left) and 0.2 (right), respectively. Last column shows the esimation results using MSE-optimal bandwidth calculated seperately for each side of the cutoff without using time fixed effect.}
+\end{table}

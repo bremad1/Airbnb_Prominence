@@ -1,10 +1,8 @@
 # 리뷰 스크래핑
 setwd('C:/Users/sim/Desktop/iCloudDrive/iCloudDrive/4-1/Airbnb/Test/NTA별 ACS')
-library(dplyr)
 library(RSelenium)
 library(dplyr)
 library(lubridate)
-library(RSelenium)
 library(wdman)
 library(purrr)
 library(netstat)
@@ -1001,97 +999,3 @@ sum(z$total_obs_unique)
 count(z%>%filter(total_obs_unique>=73)) #642
 summary(z$total_obs_unique)
 # stat --------------------------------------------------------------------
-
-load('scrapped data/ratio_flex3.RData')
-load('scrapped data/ratio_flex6.RData')
-load('scrapped data/ratio_flex12.RData')
-
-# 계산 함수 (위와 동일)
-compute_phi_table <- function(ratio, method) {
-  ratio_f <- if (method == "method1") {
-    ratio %>% filter(obs_total >= 19)
-  } else {
-    ratio %>% filter(obs_total >= 73)
-  }
-  
-  exposure_f <- if (method == "method3") {
-    ratio_f %>% filter(page_num <= 2)
-  } else {
-    ratio_f %>% filter(page_num == 1)
-  }
-  
-  supply_df <- ratio_f %>%
-    group_by(grid_id) %>%
-    summarise(S_g = sum(superhost == 1), N_g = n(), s_g = S_g / N_g, .groups = "drop")
-  
-  exposure_df <- exposure_f %>%
-    group_by(grid_id) %>%
-    summarise(S1_g = sum(superhost == 1), N1_g = n(), r_g = S1_g / N1_g, .groups = "drop")
-  
-  phi_df <- left_join(exposure_df, supply_df, by = "grid_id") %>%
-    mutate(phi_g = r_g / s_g)
-  
-  phi_bar <- mean(phi_df$phi_g, na.rm = TRUE)
-  s_bar <- ratio_f %>%
-    summarise(s_bar = sum(superhost == 1) / n()) %>%
-    pull(s_bar)
-  r_hat <- phi_bar * s_bar
-  
-  reg <- lm(r_g ~ s_g - 1, data = phi_df)
-  coef_val <- coef(reg)[1]
-  
-  return(c(r_hat = r_hat, phi_bar = phi_bar, s_bar = s_bar, coef = coef_val))
-}
-
-# 메인 데이터셋과 라벨
-datasets <- list(
-  ratio_flex3 = ratio_flex3,
-  ratio_flex6 = ratio_flex6,
-  ratio_flex12 = ratio_flex12
-)
-
-# 라텍스 테이블 생성
-methods <- c("method1", "method2", "method3")
-latex_lines <- c(
-  "\\begin{tabular}{lccc}",
-  "\\toprule",
-  "& Method 1 & Method 2 & Method 3 \\\\",
-  "\\midrule"
-)
-# 방어적으로 행 존재 확인 + 길이 확인 후 sprintf 수행
-safe_sprintf <- function(label, values) {
-  if (is.null(values) || length(values) < 3 || any(is.na(values))) {
-    return(paste0(label, " & NA & NA & NA \\\\"))
-  } else {
-    return(sprintf(paste0(label, " & %.3f & %.3f & %.3f \\\\"), values[1], values[2], values[3]))
-  }
-}
-
-for (dname in names(datasets)) {
-  latex_lines <- c(latex_lines, paste0("\\texttt{", dname, "} \\\\"))
-  
-  rows <- lapply(methods, function(m) compute_phi_table(datasets[[dname]], m))
-  mat <- do.call(cbind, rows)
-  rownames(mat) <- c("r_hat", "phi_bar", "s_bar", "coef")
-  
-  latex_lines <- c(latex_lines,
-                   safe_sprintf("$\\hat{r}_g$", mat["r_hat", ]),
-                   safe_sprintf("$\\bar{\\phi}_g$", mat["phi_bar", ]),
-                   safe_sprintf("$\\bar{s}_g$", mat["s_bar", ]),
-                   safe_sprintf("OLS coef", mat["coef", ]),
-                   "\\midrule"
-  )
-  
-}
-
-latex_lines <- c(latex_lines[1:(length(latex_lines) - 1)], "\\bottomrule", "\\end{tabular}")
-
-# 출력
-cat(paste(latex_lines, collapse = "\n"))
-
-
-k= Total %>%
-  count(room_type) %>%                             # room_type별 개수
-  mutate(
-    percent = round(n / sum(n) * 100, 2)           # 백분율 계산
-  )

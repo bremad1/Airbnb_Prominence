@@ -1,0 +1,35 @@
+# R session files
+.Rhistory
+.RData
+.Ruserdata
+
+# Large data files
+*.RData
+*.rda
+*.rds
+*.csv
+*.tsv
+*.xlsx
+*.xls
+*.zip
+*.geojson
+
+# Local data/output folders
+RData/
+raw CSV/
+scrapped data/
+Private room/
+NTA별 ACS/
+emp/
+results/
+
+# Generated plots and local artifacts
+Rplot*.png
+*.log
+*.aux
+*.synctex.gz
+
+# OS/editor noise
+.DS_Store
+Thumbs.db
+README.docx
