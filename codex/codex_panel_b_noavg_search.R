@@ -1,8 +1,11 @@
 library(dplyr)
 library(rdrobust)
 
-setwd("C:/Users/brema/iCloudDrive/4-1/Airbnb/Test")
-load("Quarterly_dataset1.RData")
+codex_setup_path <- file.path("codex", "_paths.R")
+if (!file.exists(codex_setup_path)) codex_setup_path <- "_paths.R"
+source(codex_setup_path)
+
+load(codex_project_file("Quarterly_dataset1.RData"))
 
 target_conditions <- c("FULL", "Q1Q2", "Q2Q3", "Q3Q4")
 
@@ -245,26 +248,6 @@ if (nrow(summary_df) > 0) {
   strict_df <- summary_df
   near_df <- summary_df
 }
-
-stamp <- format(Sys.time(), "%Y%m%d_%H%M%S")
-dir.create("results", showWarnings = FALSE, recursive = TRUE)
-all_path <- file.path("results", paste0("codex_panel_b_noavg_all_", stamp, ".csv"))
-summary_path <- file.path("results", paste0("codex_panel_b_noavg_summary_", stamp, ".csv"))
-pass_path <- file.path("results", paste0("codex_panel_b_noavg_pass_", stamp, ".csv"))
-strict_path <- file.path("results", paste0("codex_panel_b_noavg_strict_pass_", stamp, ".csv"))
-near_path <- file.path("results", paste0("codex_panel_b_noavg_near_", stamp, ".csv"))
-
-write.csv(all_results, all_path, row.names = FALSE)
-write.csv(summary_df, summary_path, row.names = FALSE)
-write.csv(pass_df, pass_path, row.names = FALSE)
-write.csv(strict_df, strict_path, row.names = FALSE)
-write.csv(near_df, near_path, row.names = FALSE)
-
-message("Wrote: ", all_path)
-message("Wrote: ", summary_path)
-message("Wrote: ", pass_path)
-message("Wrote: ", strict_path)
-message("Wrote: ", near_path)
 
 print(head(summary_df, 30))
 if (nrow(pass_df) > 0) {

@@ -1,8 +1,11 @@
 library(dplyr)
 library(rdrobust)
 
-setwd("C:/Users/brema/iCloudDrive/4-1/Airbnb/Test")
-load("Quarterly_dataset1.RData")
+codex_setup_path <- file.path("codex", "_paths.R")
+if (!file.exists(codex_setup_path)) codex_setup_path <- "_paths.R"
+source(codex_setup_path)
+
+load(codex_project_file("Quarterly_dataset1.RData"))
 
 target_conditions <- c("FULL", "Q1Q2", "Q2Q3", "Q3Q4")
 rating_cuts <- c(4.0, 4.2, 4.3, 4.4, 4.5, 4.6, 4.7, 4.8, 4.9)
@@ -128,20 +131,6 @@ identity_by_current_superhost <- z_all %>%
     prob_host_identity_t = mean(host_identity_verified == "t"),
     .groups = "drop"
   )
-
-stamp <- format(Sys.time(), "%Y%m%d_%H%M%S")
-dir.create("results", showWarnings = FALSE, recursive = TRUE)
-rating_all_path <- file.path("results", paste0("codex_rating_sweep_all_", stamp, ".csv"))
-rating_summary_path <- file.path("results", paste0("codex_rating_sweep_summary_", stamp, ".csv"))
-identity_ex_super_path <- file.path("results", paste0("codex_identity_by_ex_super_", stamp, ".csv"))
-identity_ex_super2_path <- file.path("results", paste0("codex_identity_by_ex_super2_", stamp, ".csv"))
-identity_current_path <- file.path("results", paste0("codex_identity_by_host_is_superhost2_", stamp, ".csv"))
-
-write.csv(rating_results, rating_all_path, row.names = FALSE)
-write.csv(rating_summary, rating_summary_path, row.names = FALSE)
-write.csv(identity_by_ex_super, identity_ex_super_path, row.names = FALSE)
-write.csv(identity_by_ex_super2, identity_ex_super2_path, row.names = FALSE)
-write.csv(identity_by_current_superhost, identity_current_path, row.names = FALSE)
 
 cat("\nRATING SUMMARY\n")
 print(rating_summary)

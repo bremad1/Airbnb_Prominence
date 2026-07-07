@@ -1,32 +1,16 @@
 library(dplyr)
 library(rdrobust)
 
-setwd("C:/Users/brema/iCloudDrive/4-1/Airbnb/Test")
-load("Quarterly_dataset1.RData")
+codex_setup_path <- file.path("codex", "_paths.R")
+if (!file.exists(codex_setup_path)) codex_setup_path <- "_paths.R"
+source(codex_setup_path)
 
-min_panel_b_n <- 1000
+load(codex_project_file("Quarterly_dataset1.RData"))
+
+min_panel_b_n <- 500
 target_conditions <- c("FULL", "Q1Q2", "Q2Q3", "Q3Q4")
 
-add_ex_quarter_host_ltm <- function(data) {
-  host_ltm <- data %>%
-    distinct(Date, host_id, id, .keep_all = TRUE) %>%
-    group_by(Date, host_id) %>%
-    summarise(
-      ex_quarter_host_ltm = ifelse(
-        all(is.na(ex_quarter_ltm)),
-        NA_real_,
-        sum(ex_quarter_ltm, na.rm = TRUE)
-      ),
-      .groups = "drop"
-    )
-
-  data %>%
-    select(-any_of("ex_quarter_host_ltm")) %>%
-    left_join(host_ltm, by = c("Date", "host_id"))
-}
-
 z0 <- rbind(Q323, Q423, Q124, Q224, Q324, Q424)
-z0 <- add_ex_quarter_host_ltm(z0)
 z0$date3 <- factor(z0$Date)
 z0$date3_ym <- format(as.Date(z0$date3), "%Y-%m")
 
@@ -37,7 +21,6 @@ z0 <- z0 %>%
     !is.na(id),
     !is.na(avg_price),
     !is.na(ex_avg),
-    !is.na(ex_quarter_host_ltm),
     avg_price > 0,
     ex_avg > 0
   )
@@ -50,112 +33,117 @@ condition_fns <- list(
 )
 
 base_filter <- list(
-  label = "host_ltm>=3",
-  fn = function(d) d$ex_quarter_host_ltm >= 3
+  label = "ltm>=5",
+  fn = function(d) d$ex_quarter_ltm >= 5
 )
 
 atoms <- list()
-add_atom <- function(label, fn, group) {
-  atoms[[label]] <<- list(fn = fn, group = group)
+add_atom <- function(label, fn) {
+  atoms[[label]] <<- fn
 }
 
-for (x in c(4, 4.3, 4.5, 4.6, 4.7, 4.8)) {
+# Review quality and review depth.
+for (x in c(4, 4.3, 4.5, 4.6, 4.7, 4.8, 4.9)) {
   add_atom(
     paste0("ex_rating>=", x),
-    local({ xx <- x; function(d) !is.na(d$ex_quarter_rating) & d$ex_quarter_rating >= xx }),
-    "quality"
+    local({ xx <- x; function(d) !is.na(d$ex_quarter_rating) & d$ex_quarter_rating >= xx })
   )
 }
 
 for (x in c(4.5, 4.6, 4.7, 4.8, 4.9)) {
   add_atom(
     paste0("score_rating>=", x),
-    local({ xx <- x; function(d) !is.na(d$review_scores_rating) & d$review_scores_rating >= xx }),
-    "quality"
-  )
-  add_atom(
-    paste0("score_clean>=", x),
-    local({ xx <- x; function(d) !is.na(d$review_scores_cleanliness) & d$review_scores_cleanliness >= xx }),
-    "quality"
+    local({ xx <- x; function(d) !is.na(d$review_scores_rating) & d$review_scores_rating >= xx })
   )
   add_atom(
     paste0("score_value>=", x),
-    local({ xx <- x; function(d) !is.na(d$review_scores_value) & d$review_scores_value >= xx }),
-    "quality"
+    local({ xx <- x; function(d) !is.na(d$review_scores_value) & d$review_scores_value >= xx })
+  )
+  add_atom(
+    paste0("score_clean>=", x),
+    local({ xx <- x; function(d) !is.na(d$review_scores_cleanliness) & d$review_scores_cleanliness >= xx })
   )
 }
 
-for (x in c(5, 10, 20, 30, 50)) {
+for (x in c(5, 10, 20, 30, 50, 75)) {
   add_atom(
     paste0("ex_reviews>=", x),
-    local({ xx <- x; function(d) d$ex_quarter_number_of_reviews >= xx }),
-    "review_depth"
+    local({ xx <- x; function(d) d$ex_quarter_number_of_reviews >= xx })
   )
 }
 
 for (x in c(10, 20, 50, 100)) {
   add_atom(
     paste0("total_reviews>=", x),
-    local({ xx <- x; function(d) d$number_of_reviews >= xx }),
-    "review_depth"
+    local({ xx <- x; function(d) d$number_of_reviews >= xx })
   )
 }
 
 for (x in c(1, 5, 10, 20)) {
   add_atom(
     paste0("reviews_ltm>=", x),
-    local({ xx <- x; function(d) d$number_of_reviews_ltm >= xx }),
-    "review_depth"
+    local({ xx <- x; function(d) d$number_of_reviews_ltm >= xx })
   )
 }
 
 for (x in c(0.25, 0.5, 1, 2)) {
   add_atom(
     paste0("reviews_per_month>=", x),
-    local({ xx <- x; function(d) !is.na(d$reviews_per_month) & d$reviews_per_month >= xx }),
-    "review_depth"
+    local({ xx <- x; function(d) !is.na(d$reviews_per_month) & d$reviews_per_month >= xx })
   )
 }
 
-add_atom("min_nights<=30", function(d) d$minimum_nights <= 30, "operations")
-add_atom("min_nights==30", function(d) d$minimum_nights == 30, "operations")
-add_atom("availability_365>0", function(d) d$availability_365 > 0, "operations")
-add_atom("availability_365>=120", function(d) d$availability_365 >= 120, "operations")
-add_atom("availability_365<=325", function(d) d$availability_365 <= 325, "operations")
-add_atom("availability_90>0", function(d) d$availability_90 > 0, "operations")
-add_atom("instant_bookable_f", function(d) d$instant_bookable == "f", "operations")
-add_atom("instant_bookable_t", function(d) d$instant_bookable == "t", "operations")
-add_atom("host_verified", function(d) d$host_identity_verified == "t", "operations")
-add_atom("response_hour", function(d) d$host_response_time == "within an hour", "operations")
-add_atom("response_hour_or_few", function(d) d$host_response_time %in% c("within an hour", "within a few hours"), "operations")
+# Host scale and host quality.
+add_atom("host_single", function(d) d$calculated_host_listings_count == 1)
+for (x in c(2, 5, 10, 20, 50)) {
+  add_atom(
+    paste0("host_calc<=", x),
+    local({ xx <- x; function(d) d$calculated_host_listings_count <= xx })
+  )
+}
+for (x in c(5, 10, 20, 50)) {
+  add_atom(
+    paste0("host_total<=", x),
+    local({ xx <- x; function(d) d$host_total_listings_count <= xx })
+  )
+}
+add_atom("host_verified", function(d) d$host_identity_verified == "t")
+add_atom("instant_bookable_f", function(d) d$instant_bookable == "f")
+add_atom("instant_bookable_t", function(d) d$instant_bookable == "t")
+add_atom("response_hour", function(d) d$host_response_time == "within an hour")
+add_atom("response_hour_or_few", function(d) d$host_response_time %in% c("within an hour", "within a few hours"))
 
+# Listing characteristics and operating constraints.
+add_atom("rental_unit", function(d) d$property_type == "Entire rental unit")
+add_atom("home_or_townhouse", function(d) d$property_type %in% c("Entire home", "Entire townhouse"))
+add_atom("condo", function(d) d$property_type == "Entire condo")
 for (x in c(2, 4, 6)) {
   add_atom(
     paste0("accommodates<=", x),
-    local({ xx <- x; function(d) d$accommodates <= xx }),
-    "listing"
+    local({ xx <- x; function(d) d$accommodates <= xx })
   )
 }
-
 for (x in c(1, 2, 3)) {
   add_atom(
     paste0("bedrooms<=", x),
-    local({ xx <- x; function(d) !is.na(d$bedrooms) & d$bedrooms <= xx }),
-    "listing"
+    local({ xx <- x; function(d) !is.na(d$bedrooms) & d$bedrooms <= xx })
   )
   add_atom(
     paste0("beds<=", x),
-    local({ xx <- x; function(d) !is.na(d$beds) & d$beds <= xx }),
-    "listing"
+    local({ xx <- x; function(d) !is.na(d$beds) & d$beds <= xx })
   )
 }
+add_atom("min_nights<=30", function(d) d$minimum_nights <= 30)
+add_atom("min_nights==30", function(d) d$minimum_nights == 30)
+add_atom("availability_365>0", function(d) d$availability_365 > 0)
+add_atom("availability_365>=120", function(d) d$availability_365 >= 120)
+add_atom("availability_365<=325", function(d) d$availability_365 <= 325)
+add_atom("availability_90>0", function(d) d$availability_90 > 0)
 
-add_atom("rental_unit", function(d) d$property_type == "Entire rental unit", "listing")
-add_atom("home_or_townhouse", function(d) d$property_type %in% c("Entire home", "Entire townhouse"), "listing")
-add_atom("condo", function(d) d$property_type == "Entire condo", "listing")
-add_atom("avg_price_100_400", function(d) d$avg_price >= 100 & d$avg_price <= 400, "price")
-add_atom("avg_price_125_400", function(d) d$avg_price >= 125 & d$avg_price <= 400, "price")
-add_atom("ex_avg_100_400", function(d) d$ex_avg >= 100 & d$ex_avg <= 400, "price")
+# Price range filters are intentionally broad, to avoid tiny or odd samples.
+add_atom("avg_price_100_400", function(d) d$avg_price >= 100 & d$avg_price <= 400)
+add_atom("avg_price_125_400", function(d) d$avg_price >= 125 & d$avg_price <= 400)
+add_atom("ex_avg_100_400", function(d) d$ex_avg >= 100 & d$ex_avg <= 400)
 
 make_filters <- function() {
   filters <- list()
@@ -163,19 +151,19 @@ make_filters <- function() {
 
   for (name in names(atoms)) {
     filters[[paste(base_filter$label, name, sep = " & ")]] <- local({
-      atom <- atoms[[name]]$fn
-      function(d) base_filter$fn(d) & atom(d)
+      f1 <- atoms[[name]]
+      function(d) base_filter$fn(d) & f1(d)
     })
   }
 
-  quality_names <- names(atoms)[vapply(atoms, function(x) x$group %in% c("quality", "review_depth"), logical(1))]
-  stabilizer_names <- names(atoms)[vapply(atoms, function(x) x$group %in% c("operations", "listing", "price"), logical(1))]
+  quality_names <- grep("ex_rating|score_|ex_reviews|total_reviews|reviews_ltm|reviews_per_month", names(atoms), value = TRUE)
+  stabilizer_names <- setdiff(names(atoms), quality_names)
 
   for (q in quality_names) {
     for (s in stabilizer_names) {
       filters[[paste(base_filter$label, q, s, sep = " & ")]] <- local({
-        fq <- atoms[[q]]$fn
-        fs <- atoms[[s]]$fn
+        fq <- atoms[[q]]
+        fs <- atoms[[s]]
         function(d) base_filter$fn(d) & fq(d) & fs(d)
       })
     }
@@ -289,20 +277,6 @@ pass_summary <- bind_rows(passes) %>%
   arrange(desc(ok_bc), max_abs_conv, max_abs_bc, desc(min_n_panel_b))
 near_summary <- bind_rows(near_misses) %>%
   arrange(max_abs_conv, desc(min_n_panel_b))
-
-stamp <- format(Sys.time(), "%Y%m%d_%H%M%S")
-dir.create("results", showWarnings = FALSE, recursive = TRUE)
-all_path <- file.path("results", paste0("codex_panel_b_host_ltm_all_", stamp, ".csv"))
-pass_path <- file.path("results", paste0("codex_panel_b_host_ltm_pass_", stamp, ".csv"))
-near_path <- file.path("results", paste0("codex_panel_b_host_ltm_near_", stamp, ".csv"))
-
-write.csv(all_results, all_path, row.names = FALSE)
-write.csv(pass_summary, pass_path, row.names = FALSE)
-write.csv(near_summary, near_path, row.names = FALSE)
-
-message("Wrote: ", all_path)
-message("Wrote: ", pass_path)
-message("Wrote: ", near_path)
 
 print(head(pass_summary, 30))
 

@@ -1133,20 +1133,6 @@ codex_panel_b_filter_search <- function(
     filter(coef_conv < 0 | coef_bc < 0) %>%
     arrange(coef_conv, coef_bc)
 
-  dir.create(output_dir, showWarnings = FALSE, recursive = TRUE)
-  stamp <- format(Sys.time(), "%Y%m%d_%H%M%S")
-  stage1_path <- file.path(output_dir, paste0("codex_panel_b_filter_stage1_", stamp, ".csv"))
-  negative_path <- file.path(output_dir, paste0("codex_panel_b_filter_negative_stage1_", stamp, ".csv"))
-  full_path <- file.path(output_dir, paste0("codex_panel_b_filter_full_negative_", stamp, ".csv"))
-
-  write.csv(stage1_df, stage1_path, row.names = FALSE)
-  write.csv(negative_stage1, negative_path, row.names = FALSE)
-  write.csv(negative_full, full_path, row.names = FALSE)
-
-  message("Wrote: ", stage1_path)
-  message("Wrote: ", negative_path)
-  message("Wrote: ", full_path)
-
   print(head(negative_full, 30))
 
   invisible(list(

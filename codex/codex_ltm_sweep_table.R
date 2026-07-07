@@ -1,8 +1,11 @@
 library(dplyr)
 library(rdrobust)
 
-setwd("C:/Users/brema/iCloudDrive/4-1/Airbnb/Test")
-load("Quarterly_dataset1.RData")
+codex_setup_path <- file.path("codex", "_paths.R")
+if (!file.exists(codex_setup_path)) codex_setup_path <- "_paths.R"
+source(codex_setup_path)
+
+load(codex_project_file("Quarterly_dataset1.RData"))
 
 target_conditions <- c("FULL", "Q1Q2", "Q2Q3", "Q3Q4")
 ltm_cuts <- 1:5
@@ -85,12 +88,5 @@ for (ltm_cut in ltm_cuts) {
 
 results <- bind_rows(results)
 
-stamp <- format(Sys.time(), "%Y%m%d_%H%M%S")
-dir.create("results", showWarnings = FALSE, recursive = TRUE)
-all_path <- file.path("results", paste0("codex_ltm_sweep_all_", stamp, ".csv"))
-write.csv(results, all_path, row.names = FALSE)
-
 cat("\nLTM SWEEP RESULTS\n")
 print(results %>% arrange(ltm_cut, match(condition, target_conditions)))
-cat("\nWROTE\n")
-cat(all_path, "\n")
