@@ -33,3 +33,26 @@ The `.gitignore` excludes large data and generated artifacts, including:
 
 After cloning on another computer, copy the required data files into the same relative
 locations before running the analysis.
+
+## RData Dependencies From Script 3 Onward
+
+For the current Panel B scripts and Codex helper scripts, the main required data file is:
+
+- `Quarterly_dataset1.RData`
+
+For the broader numbered scripts from `3` onward, the code references:
+
+- `RData/Entire.RData`
+- `RData/Quarterly_dataset1.RData`
+- `Quarterly_dataset1.RData`
+- `Quarterly_dataset2.RData`
+- `Quarterly_dataset3.RData`
+- `Quarterly_dataset4.RData`
+- `RData/Estimation_Results.RData`
+- `scrapped data/ratio_flex3.RData`
+- `scrapped data/ratio_flex12.RData`
+
+Older scripts `3-2. 3months.R` and `3.3 Ex2.R` reference
+`RData/Quarterly_dataset.RData`, but the current local copy has
+`Quarterly_dataset.RData` in the project root instead. Either copy it into
+`RData/Quarterly_dataset.RData` on the other computer or update those script paths.
