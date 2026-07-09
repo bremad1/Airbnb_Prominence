@@ -1,0 +1,23 @@
+\begin{table}[!htbp]
+\centering
+\caption{Good-result RD estimates: ex\_super2=t \& 0 $\leq$ days\_since\_last\_review $\leq$ 90}
+\label{tab:good_result_days_since_last_review_90}
+\begin{tabular}{lccccc}
+\hline
+Condition & N & Conventional & Bias-corrected & $h_L$ & $h_R$ \\
+\hline
+FULL & 505 & 0.013 & 0.038 & 0.1823 & 0.0597 \\
+ &  & (0.066) & (0.075) &  &  \\
+Q1Q2 & 254 & -0.067 & -0.050 & 0.1723 & 0.0838 \\
+ &  & (0.121) & (0.143) &  &  \\
+Q2Q3 & 209 & -0.043 & -0.030 & 0.1691 & 0.1065 \\
+ &  & (0.094) & (0.109) &  &  \\
+Q3Q4 & 251 & 0.024 & -0.008 & 0.1357 & 0.0863 \\
+ &  & (0.070) & (0.082) &  &  \\
+\hline
+\end{tabular}
+\begin{flushleft}
+\footnotesize Notes: Panel B sample restricts to $ex\_super=f$ after applying the good-result filter. Outcome is $\log(avg\_price)-\log(ex\_avg)$. Running variable is $running\_scr-4.75$. Regressions use fuzzy RD with triangular kernel, MSE two-sided bandwidth, time fixed effects, and listing-clustered standard errors. Conventional stars use conventional p-values; bias-corrected stars use robust p-values. $^{***}p<0.01$, $^{**}p<0.05$, $^{*}p<0.10$.
+\end{flushleft}
+\end{table}
+

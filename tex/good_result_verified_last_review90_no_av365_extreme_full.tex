@@ -1,0 +1,29 @@
+\begin{table}[!htbp]
+\centering
+\caption{Good-result RD estimates: ex\_super2=t, host\_identity\_verified=t, last\_review within 90 days, and availability\_365 not in \{0,365\}}
+\label{tab:good_result_verified_last_review90_no_av365_extreme_full}
+\begin{tabular}{lcccccc}
+\hline
+ & (1) & (2) & (3) & (4) & (5) & (6) \\
+\hline
+Conventional & -0.056 & -0.033 & -0.050 & -0.011 & -0.022 & -0.078
+\\
+ & (.071) & (.048) & (.064) & (.045) & (.040) & (.060)
+\\
+Bias-corrected & -0.035 & -0.048 & -0.059 & -0.043 & -0.006 & -0.095
+\\
+ & (.083) & (.060) & (.080) & (.056) & (.050) & (.068)
+\\
+$h_L$ & .180 & .360 & .200 & .300 & .400 & .171
+\\
+$h_R$ & .061 & .121 & .100 & .150 & .200 & .070
+\\
+Obs. in bandwidth & 222 & 293 & 246 & 299 & 312 & 226
+\\
+\hline
+\end{tabular}
+\begin{flushleft}
+\footnotesize Notes: Panel B FULL sample restricts to $ex\_super=f$ and $ex\_super2=t$ after applying the good-result filter. Raw Panel B FULL $N=484$. Outcome is $\log(avg\_price)-\log(ex\_avg)$. Running variable is $running\_scr-4.75$. Regressions use fuzzy RD with triangular kernel and listing-clustered standard errors. Columns (1)--(5) include time fixed effects; column (6) omits time fixed effects. Conventional stars use conventional p-values; bias-corrected stars use robust p-values. $^{***}p<0.01$, $^{**}p<0.05$, $^{*}p<0.10$.
+\end{flushleft}
+\end{table}
+

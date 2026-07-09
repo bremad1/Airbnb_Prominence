@@ -1,0 +1,23 @@
+\begin{table}[!htbp]
+\centering
+\caption{Good-result RD estimates: ex\_super2=t \& host\_response\_rate != N/A}
+\label{tab:good_result_host_response_rate_not_na}
+\begin{tabular}{lccccc}
+\hline
+Condition & N & Conventional & Bias-corrected & $h_L$ & $h_R$ \\
+\hline
+FULL & 891 & 0.011 & 0.006 & 0.1706 & 0.0755 \\
+ &  & (0.054) & (0.062) &  &  \\
+Q1Q2 & 463 & -0.047 & -0.053 & 0.1791 & 0.0833 \\
+ &  & (0.060) & (0.070) &  &  \\
+Q2Q3 & 401 & -0.034 & -0.046 & 0.2405 & 0.1081 \\
+ &  & (0.053) & (0.061) &  &  \\
+Q3Q4 & 428 & 0.036 & 0.022 & 0.2079 & 0.0770 \\
+ &  & (0.076) & (0.091) &  &  \\
+\hline
+\end{tabular}
+\begin{flushleft}
+\footnotesize Notes: Panel B sample restricts to $ex\_super=f$ after applying the good-result filter. Outcome is $\log(avg\_price)-\log(ex\_avg)$. Running variable is $running\_scr-4.75$. Regressions use fuzzy RD with triangular kernel, MSE two-sided bandwidth, time fixed effects, and listing-clustered standard errors. Conventional stars use conventional p-values; bias-corrected stars use robust p-values. $^{***}p<0.01$, $^{**}p<0.05$, $^{*}p<0.10$.
+\end{flushleft}
+\end{table}
+
