@@ -1,0 +1,30 @@
+\begin{table}[!htbp]
+\centering
+\caption{Good-result RD estimates: ex\_super2=t, ex\_super=f, host\_identity\_verified=t, drop availability\_365=365}
+\label{tab:good_result_drop_availability365_365}
+\begin{tabular}{lcccccc}
+\hline
+ & (1) & (2) & (3) & (4) & (5) & (6)
+\\
+\hline
+Conventional & -0.020 & .001 & -0.023 & .001 & -0.002 & -0.079
+\\
+ & (.060) & (.037) & (.051) & (.037) & (.031) & (.055)
+\\
+Bias-corrected & -0.032 & -0.026 & -0.039 & -0.026 & -0.001 & -0.101
+\\
+ & (.069) & (.048) & (.064) & (.047) & (.041) & (.064)
+\\
+$h_L$ & .145 & .291 & .200 & .300 & .400 & .170
+\\
+$h_R$ & .076 & .152 & .100 & .150 & .200 & .075
+\\
+Obs. in bandwidth & 340 & 528 & 416 & 524 & 565 & 378
+\\
+\hline
+\end{tabular}
+\begin{flushleft}
+\footnotesize Notes: Panel B FULL sample restricts to $ex\_super=f$, $ex\_super2=t$, and $host\_identity\_verified=t$ before applying the good-result filter. Raw Panel B FULL $N=981$. This removes listings whose annual calendar is fully open, a defensible proxy for unsold or weak-demand rooms. Outcome is $\log(avg\_price)-\log(ex\_avg)$. Running variable is $running\_scr-4.75$. Regressions use fuzzy RD with triangular kernel and listing-clustered standard errors. Columns (1)--(5) include time fixed effects; column (6) omits time fixed effects. $^{***}p<0.01$, $^{**}p<0.05$, $^{*}p<0.10$.
+\end{flushleft}
+\end{table}
+

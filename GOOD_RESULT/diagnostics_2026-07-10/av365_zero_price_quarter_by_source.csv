@@ -1,0 +1,8 @@
+"group","source","has_availability","n","panel_a","panel_b","verified","mean_avg_price","median_days_since_last_review"
+"av365_sum0","previous scrape","t",1066,100,18,954,219.802532833021,178
+"av365_sum0","city scrape","t",308,120,24,284,214.693181818182,79.5
+"av365_sum0","previous scrape","f",67,2,1,2,194.111940298507,202
+"av365_sum_positive","city scrape","t",30539,9166,1113,27717,222.09458397459,73
+"av365_sum_positive","previous scrape","t",793,160,25,731,225.892812105927,61
+"av365_sum_positive","city scrape","f",3,2,0,2,147.333333333333,102
+"av365_sum_positive","previous scrape","f",1,0,0,1,120,56

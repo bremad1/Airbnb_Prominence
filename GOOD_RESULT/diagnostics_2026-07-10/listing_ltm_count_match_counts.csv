@@ -1,0 +1,11 @@
+"sample_id","sample","filter_id","filter","raw_n","kept_n","usable_n","unique_hosts","left_n","right_n","unique_x","treated_n","mean_mapped_count","mean_number_of_reviews_ltm","mean_first_month_ltm"
+"panel_b_ex2","ex_super=f & ex_super2=t","baseline","baseline",1181,1181,1031,847,417,614,182,262,36.4798850574713,10.53683319221,11.1202370872142
+"panel_b_ex2","ex_super=f & ex_super2=t","row_current_ltm_match","row mapped count = number_of_reviews_ltm",1181,246,246,239,72,174,42,54,5.73577235772358,5.73577235772358,5.69918699186992
+"panel_b_ex2","ex_super=f & ex_super2=t","row_first_month_ltm_match","row mapped count = first_month_ltm",1181,398,398,387,115,283,61,75,7.07286432160804,6.39949748743719,7.07286432160804
+"panel_b_ex2","ex_super=f & ex_super2=t","single_listing_current_ltm_match","single-listing host and row mapped count = number_of_reviews_ltm",1181,243,243,236,72,171,42,53,5.76543209876543,5.76543209876543,5.73662551440329
+"panel_b_ex2","ex_super=f & ex_super2=t","single_listing_first_month_ltm_match","single-listing host and row mapped count = first_month_ltm",1181,391,391,382,113,278,60,75,7.02813299232737,6.37851662404092,7.02813299232737
+"panel_b_no_ex2","ex_super=f","baseline","baseline",18483,18483,15937,5428,9011,6926,911,1744,86.5736659650861,8.83173727208786,8.90753665530488
+"panel_b_no_ex2","ex_super=f","row_current_ltm_match","row mapped count = number_of_reviews_ltm",18483,3956,3955,2240,1070,2885,155,439,4.05510616784631,4.05510616784631,4.00783619817998
+"panel_b_no_ex2","ex_super=f","row_first_month_ltm_match","row mapped count = first_month_ltm",18483,6026,6026,2997,1866,4160,269,725,5.72286757384666,5.49900431463657,5.72286757384666
+"panel_b_no_ex2","ex_super=f","single_listing_current_ltm_match","single-listing host and row mapped count = number_of_reviews_ltm",18483,3873,3872,2197,1031,2841,150,424,3.99483604441002,3.99483604441002,3.95223341079267
+"panel_b_no_ex2","ex_super=f","single_listing_first_month_ltm_match","single-listing host and row mapped count = first_month_ltm",18483,5921,5921,2963,1815,4106,265,711,5.66779260260091,5.44637730113157,5.66779260260091

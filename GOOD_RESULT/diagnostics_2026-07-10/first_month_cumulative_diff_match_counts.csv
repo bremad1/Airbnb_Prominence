@@ -1,0 +1,11 @@
+"sample_id","sample","filter_id","filter","raw_n","kept_n","usable_n","unique_hosts","left_n","right_n","unique_x","treated_n","mean_listing_diff","mean_host_diff","mean_scraped_count","negative_listing_diff_rows"
+"panel_b_ex2","ex_super=f & ex_super2=t","baseline","baseline",1181,1181,1031,847,417,614,182,262,2.12362404741744,6.57154953429297,36.4798850574713,19
+"panel_b_ex2","ex_super=f & ex_super2=t","host_first_month_diff_match","host scraped count = host sum first-month cumulative review diff",1181,27,22,25,2,20,3,4,0.962962962962963,1.03703703703704,1.03703703703704,0
+"panel_b_ex2","ex_super=f & ex_super2=t","host_first_month_diff_match_nonnegative","same, requiring no negative listing diffs",1181,27,22,25,2,20,3,4,0.962962962962963,1.03703703703704,1.03703703703704,0
+"panel_b_ex2","ex_super=f & ex_super2=t","row_first_month_diff_match","row first-month cumulative diff = host scraped count",1181,27,22,25,2,20,3,4,0.962962962962963,1.03703703703704,0.962962962962963,0
+"panel_b_ex2","ex_super=f & ex_super2=t","single_listing_first_month_diff_match","single-listing host and first-month cumulative diff match",1181,23,20,23,2,18,3,4,1.04347826086957,1.04347826086957,1.04347826086957,0
+"panel_b_no_ex2","ex_super=f","baseline","baseline",18483,18483,15937,5428,9011,6926,911,1744,2.29546069361034,13.8355245360602,86.5736659650861,167
+"panel_b_no_ex2","ex_super=f","host_first_month_diff_match","host scraped count = host sum first-month cumulative review diff",18483,816,760,743,133,627,33,80,2.02205882352941,2.43137254901961,2.43137254901961,0
+"panel_b_no_ex2","ex_super=f","host_first_month_diff_match_nonnegative","same, requiring no negative listing diffs",18483,816,760,743,133,627,33,80,2.02205882352941,2.43137254901961,2.43137254901961,0
+"panel_b_no_ex2","ex_super=f","row_first_month_diff_match","row first-month cumulative diff = host scraped count",18483,796,733,738,124,609,32,70,1.78643216080402,1.88065326633166,1.78643216080402,0
+"panel_b_no_ex2","ex_super=f","single_listing_first_month_diff_match","single-listing host and first-month cumulative diff match",18483,749,711,719,115,596,31,65,1.78771695594125,1.78771695594125,1.78771695594125,0

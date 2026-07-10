@@ -1,0 +1,21 @@
+"av365_group","price_observed","source","has_availability","n","mean_calendar_lag_days","median_calendar_lag_days","same_day_calendar","same_day_share"
+"av365_0",FALSE,"previous scrape","t",42626,0,0,42626,1
+"av365_0",TRUE,"previous scrape","t",36581,2.73365955003964e-05,0,36580,0.9999726634045
+"av365_0",FALSE,"previous scrape","",31668,3.15776177845143e-05,0,31667,0.999968422382216
+"av365_0",TRUE,"previous scrape","f",27268,3.66730233240428e-05,0,27267,0.999963326976676
+"av365_0",TRUE,"city scrape","t",4480,0,0,4480,1
+"av365_0",FALSE,"previous scrape","f",1886,0,0,1886,1
+"av365_0",TRUE,"city scrape","",136,0,0,136,1
+"av365_0",TRUE,"city scrape","f",55,0,0,55,1
+"av365_0",FALSE,"city scrape","",30,0,0,30,1
+"av365_0",FALSE,"city scrape","t",3,0,0,3,1
+"av365_positive",TRUE,"city scrape","t",282152,3.54418894780119e-06,0,282151,0.999996455811052
+"av365_positive",TRUE,"previous scrape","t",8629,0,0,8629,1
+"av365_positive",FALSE,"previous scrape","t",7760,0,0,7760,1
+"av365_positive",TRUE,"city scrape","",5355,0,0,5355,1
+"av365_positive",TRUE,"city scrape","f",1468,0,0,1468,1
+"av365_positive",FALSE,"previous scrape","",701,0,0,701,1
+"av365_positive",FALSE,"previous scrape","f",135,0,0,135,1
+"av365_positive",FALSE,"city scrape","t",131,0,0,131,1
+"av365_positive",FALSE,"city scrape","",123,0,0,123,1
+"av365_positive",TRUE,"previous scrape","f",60,0,0,60,1

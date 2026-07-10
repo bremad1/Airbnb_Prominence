@@ -1,0 +1,25 @@
+"panel","ex_super","condition","filter_id","filter","raw_n","kept_n","dropped_n","kept_match_host_listings","kept_match_host_total_listings"
+"panel_a","t","FULL","baseline","baseline",9550,9550,0,7100,4264
+"panel_a","t","FULL","host_listings_eq_calculated","host_listings_count = calculated_host_listings_count",9550,7100,2450,7100,4264
+"panel_a","t","FULL","host_total_listings_eq_calculated","host_total_listings_count = calculated_host_listings_count",9550,4264,5286,4264,4264
+"panel_a","t","Q1Q2","baseline","baseline",4531,4531,0,3422,2133
+"panel_a","t","Q1Q2","host_listings_eq_calculated","host_listings_count = calculated_host_listings_count",4531,3422,1109,3422,2133
+"panel_a","t","Q1Q2","host_total_listings_eq_calculated","host_total_listings_count = calculated_host_listings_count",4531,2133,2398,2133,2133
+"panel_a","t","Q2Q3","baseline","baseline",5055,5055,0,3826,2383
+"panel_a","t","Q2Q3","host_listings_eq_calculated","host_listings_count = calculated_host_listings_count",5055,3826,1229,3826,2383
+"panel_a","t","Q2Q3","host_total_listings_eq_calculated","host_total_listings_count = calculated_host_listings_count",5055,2383,2672,2383,2383
+"panel_a","t","Q3Q4","baseline","baseline",5019,5019,0,3678,2131
+"panel_a","t","Q3Q4","host_listings_eq_calculated","host_listings_count = calculated_host_listings_count",5019,3678,1341,3678,2131
+"panel_a","t","Q3Q4","host_total_listings_eq_calculated","host_total_listings_count = calculated_host_listings_count",5019,2131,2888,2131,2131
+"panel_b","f","FULL","baseline","baseline",1181,1181,0,949,484
+"panel_b","f","FULL","host_listings_eq_calculated","host_listings_count = calculated_host_listings_count",1181,949,232,949,484
+"panel_b","f","FULL","host_total_listings_eq_calculated","host_total_listings_count = calculated_host_listings_count",1181,484,697,484,484
+"panel_b","f","Q1Q2","baseline","baseline",588,588,0,478,262
+"panel_b","f","Q1Q2","host_listings_eq_calculated","host_listings_count = calculated_host_listings_count",588,478,110,478,262
+"panel_b","f","Q1Q2","host_total_listings_eq_calculated","host_total_listings_count = calculated_host_listings_count",588,262,326,262,262
+"panel_b","f","Q2Q3","baseline","baseline",547,547,0,450,226
+"panel_b","f","Q2Q3","host_listings_eq_calculated","host_listings_count = calculated_host_listings_count",547,450,97,450,226
+"panel_b","f","Q2Q3","host_total_listings_eq_calculated","host_total_listings_count = calculated_host_listings_count",547,226,321,226,226
+"panel_b","f","Q3Q4","baseline","baseline",593,593,0,471,222
+"panel_b","f","Q3Q4","host_listings_eq_calculated","host_listings_count = calculated_host_listings_count",593,471,122,471,222
+"panel_b","f","Q3Q4","host_total_listings_eq_calculated","host_total_listings_count = calculated_host_listings_count",593,222,371,222,222

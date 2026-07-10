@@ -1,0 +1,24 @@
+"filter_id","filter","family","raw_verified_full","kept_verified_full","dropped_verified_full","dropped_ex_quarter_ltm0","dropped_ex_quarter_reviews0","dropped_number_reviews_ltm0","dropped_av90_pos","dropped_av365_pos","kept_mean_log_price_gap","dropped_mean_log_price_gap"
+"baseline_verified","host_identity_verified=t only","baseline",1059,1059,0,0,0,0,0,0,-0.0181841684969998,NA
+"drop_ex_quarter_ltm0","drop ex_quarter_ltm=0","zero_recent_demand",1059,1047,12,12,4,0,10,12,-0.0179798914391801,-0.0360073417917721
+"drop_ex_quarter_reviews0","drop ex_quarter_number_of_reviews=0","zero_recent_demand",1059,1055,4,4,4,0,4,4,-0.0178838267857813,-0.0973992948308671
+"drop_number_reviews_ltm0","drop number_of_reviews_ltm=0","zero_recent_demand",1059,1026,33,0,0,33,28,32,-0.0180753468568765,-0.0215675322171961
+"drop_reviews_per_month0_or_na","drop reviews_per_month=0 or NA","zero_recent_demand",1059,1059,0,0,0,0,0,0,-0.0181841684969998,NA
+"drop_any_zero_demand","drop any zero demand proxy","zero_recent_demand",1059,1014,45,12,4,33,38,44,-0.0178631338990671,-0.0254181481037497
+"drop_av90full","drop availability_90=90","calendar_fully_open",1059,904,155,0,0,8,155,155,-0.0169253576207185,-0.0255258783818917
+"drop_av365full","drop availability_365=365","calendar_fully_open",1059,981,78,0,0,6,78,78,-0.0176478184597983,-0.0249298016571878
+"drop_any_calendar_full","drop availability_90=90 or availability_365=365","calendar_fully_open",1059,904,155,0,0,8,155,155,-0.0169253576207185,-0.0255258783818917
+"drop_ex_ltm0_av90pos","drop ex_quarter_ltm=0 & availability_90>0","zero_demand_calendar_open",1059,1049,10,10,4,0,10,10,-0.0180166636200301,-0.0357554300911255
+"drop_ex_ltm0_av365pos","drop ex_quarter_ltm=0 & availability_365>0","zero_demand_calendar_open",1059,1047,12,12,4,0,10,12,-0.0179798914391801,-0.0360073417917721
+"drop_ex_reviews0_av90pos","drop ex_quarter_number_of_reviews=0 & availability_90>0","zero_demand_calendar_open",1059,1055,4,4,4,0,4,4,-0.0178838267857813,-0.0973992948308671
+"drop_ex_reviews0_av365pos","drop ex_quarter_number_of_reviews=0 & availability_365>0","zero_demand_calendar_open",1059,1055,4,4,4,0,4,4,-0.0178838267857813,-0.0973992948308671
+"drop_ltm0_av90pos","drop number_of_reviews_ltm=0 & availability_90>0","zero_demand_calendar_open",1059,1031,28,0,0,28,28,28,-0.0178804948861258,-0.0293658646688251
+"drop_ltm0_av365pos","drop number_of_reviews_ltm=0 & availability_365>0","zero_demand_calendar_open",1059,1027,32,0,0,32,28,32,-0.018060589664322,-0.0221502766582543
+"drop_ex_ltm0_av90full","drop ex_quarter_ltm=0 & availability_90=90","zero_demand_calendar_fully_open",1059,1059,0,0,0,0,0,0,-0.0181841684969998,NA
+"drop_ex_ltm0_av365full","drop ex_quarter_ltm=0 & availability_365=365","zero_demand_calendar_fully_open",1059,1059,0,0,0,0,0,0,-0.0181841684969998,NA
+"drop_ex_reviews0_av90full","drop ex_quarter_number_of_reviews=0 & availability_90=90","zero_demand_calendar_fully_open",1059,1059,0,0,0,0,0,0,-0.0181841684969998,NA
+"drop_ex_reviews0_av365full","drop ex_quarter_number_of_reviews=0 & availability_365=365","zero_demand_calendar_fully_open",1059,1059,0,0,0,0,0,0,-0.0181841684969998,NA
+"drop_ltm0_av90full","drop number_of_reviews_ltm=0 & availability_90=90","zero_demand_calendar_fully_open",1059,1051,8,0,0,8,8,8,-0.0183225827196221,0
+"drop_ltm0_av365full","drop number_of_reviews_ltm=0 & availability_365=365","zero_demand_calendar_fully_open",1059,1053,6,0,0,6,6,6,-0.0182877819927092,0
+"drop_ltm0_stale180","drop number_of_reviews_ltm=0 & no/stale last_review>180","zero_demand_stale_review",1059,1026,33,0,0,33,28,32,-0.0180753468568765,-0.0215675322171961
+"drop_ltm0_stale365","drop number_of_reviews_ltm=0 & no/stale last_review>365","zero_demand_stale_review",1059,1026,33,0,0,33,28,32,-0.0180753468568765,-0.0215675322171961

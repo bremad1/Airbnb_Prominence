@@ -1,0 +1,11 @@
+"sample_id","sample","filter_id","filter","raw_n","kept_n","unique_hosts","mean_host_increment","mean_host_first_month_ltm","mean_scraped_ltm_count","negative_increment_rows"
+"panel_b_ex2","ex_super=f & ex_super2=t","baseline","baseline",1181,1181,847,2.18543607112616,29.4834885690093,36.4798850574713,4
+"panel_b_ex2","ex_super=f & ex_super2=t","host_first_month_increment_match","host scraped LTM count = host sum first-month review increment",1181,16,13,0.875,13.1875,0.875,0
+"panel_b_ex2","ex_super=f & ex_super2=t","host_first_month_increment_match_nonnegative","same, requiring no negative listing increments",1181,16,13,0.875,13.1875,0.875,0
+"panel_b_ex2","ex_super=f & ex_super2=t","host_first_month_ltm_match","host scraped LTM count = host sum Inside first_month_ltm",1181,483,419,0.409937888198758,7.93374741200828,7.93374741200828,1
+"panel_b_ex2","ex_super=f & ex_super2=t","host_first_month_increment_match_rating_sum","diagnostic: rating-sum variable equals increment",1181,8,7,0,19.25,0,0
+"panel_b_no_ex2","ex_super=f","baseline","baseline",18483,18483,5428,4.74652383271114,50.7752529351296,86.5736659650861,56
+"panel_b_no_ex2","ex_super=f","host_first_month_increment_match","host scraped LTM count = host sum first-month review increment",18483,266,222,0.74812030075188,6.11654135338346,0.74812030075188,0
+"panel_b_no_ex2","ex_super=f","host_first_month_increment_match_nonnegative","same, requiring no negative listing increments",18483,266,222,0.74812030075188,6.11654135338346,0.74812030075188,0
+"panel_b_no_ex2","ex_super=f","host_first_month_ltm_match","host scraped LTM count = host sum Inside first_month_ltm",18483,6833,3132,0.493633835796868,6.99414605590517,6.99414605590517,10
+"panel_b_no_ex2","ex_super=f","host_first_month_increment_match_rating_sum","diagnostic: rating-sum variable equals increment",18483,91,58,0.032967032967033,13.4835164835165,0.032967032967033,0

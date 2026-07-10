@@ -1,0 +1,30 @@
+\begin{table}[!htbp]
+\centering
+\caption{Good-result RD estimates: ex\_super2=t, ex\_super=f, host\_identity\_verified=t, drop number\_of\_reviews\_ltm=0}
+\label{tab:good_result_drop_number_reviews_ltm0}
+\begin{tabular}{lcccccc}
+\hline
+ & (1) & (2) & (3) & (4) & (5) & (6)
+\\
+\hline
+Conventional & -0.007 & .009 & -0.010 & .009 & .004 & -0.079
+\\
+ & (.058) & (.035) & (.049) & (.035) & (.031) & (.053)
+\\
+Bias-corrected & -0.018 & -0.013 & -0.016 & -0.012 & .009 & -0.101*
+\\
+ & (.066) & (.046) & (.062) & (.046) & (.040) & (.061)
+\\
+$h_L$ & .153 & .305 & .200 & .300 & .400 & .180
+\\
+$h_R$ & .075 & .150 & .100 & .150 & .200 & .075
+\\
+Obs. in bandwidth & 391 & 560 & 444 & 555 & 598 & 413
+\\
+\hline
+\end{tabular}
+\begin{flushleft}
+\footnotesize Notes: Panel B FULL sample restricts to $ex\_super=f$, $ex\_super2=t$, and $host\_identity\_verified=t$ before applying the good-result filter. Raw Panel B FULL $N=1026$. This removes listings with no last-twelve-month reviews, a defensible zero-demand proxy. Outcome is $\log(avg\_price)-\log(ex\_avg)$. Running variable is $running\_scr-4.75$. Regressions use fuzzy RD with triangular kernel and listing-clustered standard errors. Columns (1)--(5) include time fixed effects; column (6) omits time fixed effects. $^{***}p<0.01$, $^{**}p<0.05$, $^{*}p<0.10$.
+\end{flushleft}
+\end{table}
+

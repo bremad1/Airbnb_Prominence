@@ -1,0 +1,7 @@
+"quarter","current_ym","previous_ym","rows","missing_current_first_month","missing_previous_first_month_case","missing_previous_first_month_join","current_first_month_mismatch","previous_first_month_mismatch","diff_mismatch","negative_diff_case","mean_diff_case"
+"Q124","2024-01","2023-10",5516,0,0,0,0,0,0,224,1.82052211747643
+"Q224","2024-04","2024-01",4854,0,0,0,0,0,0,19,1.28512566955089
+"Q323","2023-07","2023-04",7123,0,0,0,0,0,0,7,4.72202723571529
+"Q324","2024-07","2024-04",4793,0,0,0,0,0,0,20,2.20154391821406
+"Q423","2023-10","2023-07",6246,0,0,0,0,0,0,7,3.56516170349023
+"Q424","2024-10","2024-07",4245,0,0,0,0,0,0,11,2.56277974087161

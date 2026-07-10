@@ -1,0 +1,7 @@
+"quarter","current_ym","previous_ym","rows","ltm_scr_mapped_count_mismatch","existing_first_month_mismatch","missing_current_first_month","missing_previous_first_month","missing_listing_diff","negative_listing_diff","host_diff_match_rows","row_diff_match_rows","single_listing_diff_match_rows"
+"Q124","2024-01","2023-10",5516,0,0,0,0,0,224,112,115,97
+"Q224","2024-04","2024-01",4854,0,0,0,0,0,19,70,70,62
+"Q323","2023-07","2023-04",7123,0,0,0,0,0,7,189,174,167
+"Q324","2024-07","2024-04",4793,0,0,0,0,0,20,114,110,100
+"Q423","2023-10","2023-07",6246,0,0,0,0,0,7,255,252,241
+"Q424","2024-10","2024-07",4245,0,0,0,0,0,11,194,178,178

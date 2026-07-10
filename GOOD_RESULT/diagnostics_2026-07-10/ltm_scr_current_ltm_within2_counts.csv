@@ -1,0 +1,7 @@
+"sample_id","sample","filter_id","filter","raw_n","kept_n","usable_n","unique_hosts","left_n","right_n","unique_x","treated_n","mean_diff_current_ltm","median_diff_current_ltm","mean_abs_diff_current_ltm","median_abs_diff_current_ltm","mean_scraped","mean_inside_current_ltm"
+"panel_b_ex2","ex_super=f & ex_super2=t","baseline","baseline",1181,1181,1031,847,417,614,182,262,8.02777777777778,1,10.6522988505747,2,36.4798850574713,28.6426756985605
+"panel_b_ex2","ex_super=f & ex_super2=t","current_ltm_within2","|ltm_scr - host sum number_of_reviews_ltm| <= 2",1181,613,610,493,200,410,92,156,0.368678629690049,0,0.642740619902121,0,9.49592169657423,9.12724306688418
+"panel_b_ex2","ex_super=f & ex_super2=t","single_listing_current_ltm_within2","single-listing host and |ltm_scr - number_of_reviews_ltm| <= 2",1181,454,451,440,134,317,82,95,0.431718061674009,0,0.616740088105727,0,7.79515418502203,7.36343612334802
+"panel_b_no_ex2","ex_super=f","baseline","baseline",18483,18483,15937,5428,9011,6926,911,1744,30.7386405843754,1,35.5536709174198,2,86.5736659650861,51.4015581886057
+"panel_b_no_ex2","ex_super=f","current_ltm_within2","|ltm_scr - host sum number_of_reviews_ltm| <= 2",18483,8390,8340,3321,3286,5054,378,1047,0.227651966626937,0,0.623122765196663,0,11.084505363528,10.8568533969011
+"panel_b_no_ex2","ex_super=f","single_listing_current_ltm_within2","single-listing host and |ltm_scr - number_of_reviews_ltm| <= 2",18483,6525,6475,3105,2069,4406,317,801,0.207509578544061,0,0.5272030651341,0,6.01149425287356,5.8039846743295

@@ -1,0 +1,7 @@
+"sample_id","sample","filter_id","filter","raw_n","kept_n","dropped_n","dropped_ltm0","dropped_ex_quarter_ltm0","dropped_row_av365365","dropped_sum_av365730","dropped_mean_number_reviews_ltm","dropped_mean_ex_quarter_ltm"
+"panel_b_ex2","ex_super=f & ex_super2=t","baseline","baseline",1181,1181,0,0,0,0,0,NA,NA
+"panel_b_ex2","ex_super=f & ex_super2=t","drop_row_av365365_ltm0_or_exltm0","drop row av365=365 & (ltm=0 or ex_q_ltm=0)",1181,1173,8,8,0,8,8,0,3
+"panel_b_ex2","ex_super=f & ex_super2=t","drop_sum_av365730_ltm0_or_exltm0","drop quarter-sum av365=730 & (ltm=0 or ex_q_ltm=0)",1181,1173,8,8,0,8,8,0,3
+"panel_b_ex2_verified","ex_super=f & ex_super2=t & host_identity_verified=t","baseline","baseline",1059,1059,0,0,0,0,0,NA,NA
+"panel_b_ex2_verified","ex_super=f & ex_super2=t & host_identity_verified=t","drop_row_av365365_ltm0_or_exltm0","drop row av365=365 & (ltm=0 or ex_q_ltm=0)",1059,1053,6,6,0,6,6,0,2.5
+"panel_b_ex2_verified","ex_super=f & ex_super2=t & host_identity_verified=t","drop_sum_av365730_ltm0_or_exltm0","drop quarter-sum av365=730 & (ltm=0 or ex_q_ltm=0)",1059,1053,6,6,0,6,6,0,2.5

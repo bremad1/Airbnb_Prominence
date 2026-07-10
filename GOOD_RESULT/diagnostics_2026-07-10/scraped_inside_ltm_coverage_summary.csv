@@ -1,0 +1,4 @@
+"coverage_group","host_quarters","exact_ex_share","within2_ex_share","scraped_gt_ex_share","median_diff_ex","mean_diff_ex","median_abs_diff_ex","median_scraped","median_inside_ex"
+"observed_all_calc_listings",728,0.133241758241758,0.436813186813187,0.344391785150079,-1,-1.73143759873618,2,16,21
+"observed_lt_calc_listings",879,0.0944254835039818,0.274175199089875,0.6725,3,56.3575,6,24,16
+"single_listing_host_q",10488,0.381006864988558,0.636250953470633,0.314463955637708,0,5.50138632162662,1,4,4

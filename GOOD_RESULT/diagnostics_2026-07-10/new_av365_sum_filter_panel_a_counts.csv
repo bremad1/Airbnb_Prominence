@@ -1,0 +1,7 @@
+"sample_id","sample","filter_id","filter","raw_n","kept_n","dropped_n","dropped_row_av3650","dropped_sum_av3650","kept_mean_av365_sum_q","dropped_mean_av365_sum_q"
+"panel_a_ex2","ex_super=t & ex_super2=t","baseline","baseline",9550,9550,0,0,0,451.562931937173,NA
+"panel_a_ex2","ex_super=t & ex_super2=t","drop_av365_row0","drop row availability_365=0",9550,9297,253,253,222,463.434010971281,15.3359683794466
+"panel_a_ex2","ex_super=t & ex_super2=t","drop_av365_sum0","drop quarter-sum availability_365=0",9550,9328,222,222,222,462.309819897084,0
+"panel_a_ex2_verified","ex_super=t & ex_super2=t & host_identity_verified=t","baseline","baseline",8594,8594,0,0,0,449.827205026763,NA
+"panel_a_ex2_verified","ex_super=t & ex_super2=t & host_identity_verified=t","drop_av365_row0","drop row availability_365=0",8594,8368,226,226,197,461.583891013384,14.5176991150442
+"panel_a_ex2_verified","ex_super=t & ex_super2=t & host_identity_verified=t","drop_av365_sum0","drop quarter-sum availability_365=0",8594,8397,197,197,197,460.380493033226,0
