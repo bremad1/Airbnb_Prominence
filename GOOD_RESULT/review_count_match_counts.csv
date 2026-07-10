@@ -1,0 +1,7 @@
+"sample_id","sample","filter_id","filter","raw_n","kept_n","dropped_n","unique_hosts","host_ltm_match_hosts"
+"panel_b_ex2","ex_super=f & ex_super2=t","baseline","baseline",1181,1181,0,847,239
+"panel_b_ex2","ex_super=f & ex_super2=t","host_ltm_match_exact","host scraped LTM count = host sum Inside ex_quarter_ltm",1181,272,909,239,239
+"panel_b_ex2","ex_super=f & ex_super2=t","single_listing_host_ltm_match_exact","single-listing host and LTM count match",1181,221,960,220,220
+"panel_b_no_ex2","ex_super=f","baseline","baseline",18483,18483,0,5428,2331
+"panel_b_no_ex2","ex_super=f","host_ltm_match_exact","host scraped LTM count = host sum Inside ex_quarter_ltm",18483,4493,13990,2331,2331
+"panel_b_no_ex2","ex_super=f","single_listing_host_ltm_match_exact","single-listing host and LTM count match",18483,3996,14487,2223,2223
