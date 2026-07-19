@@ -1,0 +1,145 @@
+\begin{table}[!htbp]
+\centering
+\caption{RD estimates by initial cumulative review threshold: Panel A}
+\label{tab:review_threshold_5to40_panel_a}
+\small
+\begin{tabular}{llcccc}
+\toprule
+Reviews & Statistic & $(0\%,0\%)$ & $(1\%,0\%)$ & $(0\%,1\%)$ & $(1\%,1\%)$ \\
+\midrule
+$\geq 5$ & Estimate & $-0.052^{*}$ & $-0.055^{*}$ & $-0.065^{**}$ & $-0.068^{**}$ \\
+ & SE & $(0.029)$ & $(0.031)$ & $(0.027)$ & $(0.027)$ \\
+ & $N$ & 13,722 & 13,255 & 13,467 & 12,984 \\
+\addlinespace
+$\geq 10$ & Estimate & $-0.035$ & $-0.042$ & $-0.052^{*}$ & $-0.059^{*}$ \\
+ & SE & $(0.034)$ & $(0.033)$ & $(0.030)$ & $(0.030)$ \\
+ & $N$ & 11,923 & 11,531 & 11,697 & 11,289 \\
+\addlinespace
+$\geq 15$ & Estimate & $-0.016$ & $-0.017$ & $-0.036$ & $-0.047$ \\
+ & SE & $(0.035)$ & $(0.036)$ & $(0.029)$ & $(0.032)$ \\
+ & $N$ & 10,637 & 10,275 & 10,432 & 10,066 \\
+\addlinespace
+$\geq 20$ & Estimate & $-0.022$ & $-0.025$ & $-0.044$ & $-0.054^{*}$ \\
+ & SE & $(0.035)$ & $(0.036)$ & $(0.029)$ & $(0.030)$ \\
+ & $N$ & 9,577 & 9,251 & 9,387 & 9,062 \\
+\addlinespace
+$\geq 25$ & Estimate & $-0.038$ & $-0.035$ & $-0.050^{*}$ & $-0.059^{*}$ \\
+ & SE & $(0.038)$ & $(0.038)$ & $(0.030)$ & $(0.031)$ \\
+ & $N$ & 8,732 & 8,437 & 8,544 & 8,259 \\
+\addlinespace
+$\geq 30$ & Estimate & $-0.030$ & $-0.023$ & $-0.040$ & $-0.052$ \\
+ & SE & $(0.041)$ & $(0.041)$ & $(0.033)$ & $(0.033)$ \\
+ & $N$ & 7,971 & 7,704 & 7,804 & 7,541 \\
+\addlinespace
+$\geq 35$ & Estimate & $0.017$ & $0.012$ & $-0.003$ & $-0.016$ \\
+ & SE & $(0.046)$ & $(0.045)$ & $(0.041)$ & $(0.040)$ \\
+ & $N$ & 7,325 & 7,088 & 7,173 & 6,941 \\
+\addlinespace
+$\geq 40$ & Estimate & $0.038$ & $0.039$ & $0.020$ & $0.019$ \\
+ & SE & $(0.048)$ & $(0.050)$ & $(0.043)$ & $(0.043)$ \\
+ & $N$ & 6,784 & 6,565 & 6,640 & 6,427 \\
+\bottomrule
+\end{tabular}
+\begin{minipage}{0.96\textwidth}
+\footnotesize
+\textit{Notes:} Before trimming, the sample is restricted to \texttt{first\_month\_ltm} $\geq 1$ and \texttt{first\_month\_number\_of\_reviews} at least the threshold shown. Column headings report (price trim, price-change trim). Panel A restricts to \texttt{ex\_super=``t''}. Estimates use the main fuzzy RD specification with time fixed effects, a triangular kernel, MSE-optimal side-specific bandwidths, and standard errors clustered by listing ID. $N$ is the full pre-bandwidth analysis sample size. $^{***}p<0.01$, $^{**}p<0.05$, $^{*}p<0.10$.
+\end{minipage}
+\end{table}
+\clearpage
+
+\begin{table}[!htbp]
+\centering
+\caption{RD estimates by initial cumulative review threshold: Panel B}
+\label{tab:review_threshold_5to40_panel_b}
+\small
+\begin{tabular}{llcccc}
+\toprule
+Reviews & Statistic & $(0\%,0\%)$ & $(1\%,0\%)$ & $(0\%,1\%)$ & $(1\%,1\%)$ \\
+\midrule
+$\geq 5$ & Estimate & $-0.008$ & $0.010$ & $0.019$ & $0.028$ \\
+ & SE & $(0.038)$ & $(0.033)$ & $(0.035)$ & $(0.028)$ \\
+ & $N$ & 13,503 & 12,870 & 13,206 & 12,613 \\
+\addlinespace
+$\geq 10$ & Estimate & $-0.048$ & $-0.034$ & $-0.049$ & $-0.012$ \\
+ & SE & $(0.040)$ & $(0.037)$ & $(0.036)$ & $(0.030)$ \\
+ & $N$ & 10,242 & 9,762 & 10,020 & 9,572 \\
+\addlinespace
+$\geq 15$ & Estimate & $-0.068^{*}$ & $-0.069^{*}$ & $-0.057^{*}$ & $-0.049$ \\
+ & SE & $(0.037)$ & $(0.036)$ & $(0.032)$ & $(0.031)$ \\
+ & $N$ & 8,474 & 8,090 & 8,290 & 7,927 \\
+\addlinespace
+$\geq 20$ & Estimate & $-0.103^{***}$ & $-0.106^{***}$ & $-0.076^{**}$ & $-0.085^{***}$ \\
+ & SE & $(0.034)$ & $(0.035)$ & $(0.032)$ & $(0.030)$ \\
+ & $N$ & 7,230 & 6,912 & 7,077 & 6,769 \\
+\addlinespace
+$\geq 25$ & Estimate & $-0.126^{***}$ & $-0.151^{***}$ & $-0.115^{***}$ & $-0.119^{***}$ \\
+ & SE & $(0.035)$ & $(0.038)$ & $(0.036)$ & $(0.035)$ \\
+ & $N$ & 6,344 & 6,070 & 6,221 & 5,952 \\
+\addlinespace
+$\geq 30$ & Estimate & $-0.135^{***}$ & $-0.130^{***}$ & $-0.096^{***}$ & $-0.116^{***}$ \\
+ & SE & $(0.040)$ & $(0.036)$ & $(0.033)$ & $(0.035)$ \\
+ & $N$ & 5,644 & 5,401 & 5,534 & 5,293 \\
+\addlinespace
+$\geq 35$ & Estimate & $-0.124^{***}$ & $-0.129^{***}$ & $-0.105^{***}$ & $-0.108^{***}$ \\
+ & SE & $(0.039)$ & $(0.036)$ & $(0.036)$ & $(0.032)$ \\
+ & $N$ & 5,043 & 4,829 & 4,940 & 4,732 \\
+\addlinespace
+$\geq 40$ & Estimate & $-0.123^{***}$ & $-0.129^{***}$ & $-0.111^{***}$ & $-0.125^{***}$ \\
+ & SE & $(0.042)$ & $(0.039)$ & $(0.040)$ & $(0.039)$ \\
+ & $N$ & 4,582 & 4,386 & 4,489 & 4,298 \\
+\bottomrule
+\end{tabular}
+\begin{minipage}{0.96\textwidth}
+\footnotesize
+\textit{Notes:} Before trimming, the sample is restricted to \texttt{first\_month\_ltm} $\geq 1$ and \texttt{first\_month\_number\_of\_reviews} at least the threshold shown. Column headings report (price trim, price-change trim). Panel B restricts to \texttt{ex\_super=``f''}. Estimates use the main fuzzy RD specification with time fixed effects, a triangular kernel, MSE-optimal side-specific bandwidths, and standard errors clustered by listing ID. $N$ is the full pre-bandwidth analysis sample size. $^{***}p<0.01$, $^{**}p<0.05$, $^{*}p<0.10$.
+\end{minipage}
+\end{table}
+\clearpage
+
+\begin{table}[!htbp]
+\centering
+\caption{RD estimates by initial cumulative review threshold: Panel C}
+\label{tab:review_threshold_5to40_panel_c}
+\small
+\begin{tabular}{llcccc}
+\toprule
+Reviews & Statistic & $(0\%,0\%)$ & $(1\%,0\%)$ & $(0\%,1\%)$ & $(1\%,1\%)$ \\
+\midrule
+$\geq 5$ & Estimate & $-0.025$ & $-0.032^{**}$ & $-0.034^{**}$ & $-0.019$ \\
+ & SE & $(0.019)$ & $(0.014)$ & $(0.014)$ & $(0.013)$ \\
+ & $N$ & 27,225 & 26,125 & 26,673 & 25,597 \\
+\addlinespace
+$\geq 10$ & Estimate & $-0.034^{*}$ & $-0.037^{**}$ & $-0.042^{***}$ & $-0.029^{**}$ \\
+ & SE & $(0.019)$ & $(0.016)$ & $(0.016)$ & $(0.013)$ \\
+ & $N$ & 22,165 & 21,293 & 21,717 & 20,861 \\
+\addlinespace
+$\geq 15$ & Estimate & $-0.051^{***}$ & $-0.043^{***}$ & $-0.044^{***}$ & $-0.038^{***}$ \\
+ & SE & $(0.019)$ & $(0.016)$ & $(0.014)$ & $(0.013)$ \\
+ & $N$ & 19,111 & 18,365 & 18,722 & 17,993 \\
+\addlinespace
+$\geq 20$ & Estimate & $-0.065^{***}$ & $-0.064^{***}$ & $-0.055^{***}$ & $-0.058^{***}$ \\
+ & SE & $(0.017)$ & $(0.018)$ & $(0.016)$ & $(0.017)$ \\
+ & $N$ & 16,807 & 16,163 & 16,464 & 15,831 \\
+\addlinespace
+$\geq 25$ & Estimate & $-0.082^{***}$ & $-0.081^{***}$ & $-0.071^{***}$ & $-0.072^{***}$ \\
+ & SE & $(0.019)$ & $(0.020)$ & $(0.017)$ & $(0.018)$ \\
+ & $N$ & 15,076 & 14,507 & 14,765 & 14,211 \\
+\addlinespace
+$\geq 30$ & Estimate & $-0.075^{***}$ & $-0.077^{***}$ & $-0.066^{***}$ & $-0.074^{***}$ \\
+ & SE & $(0.020)$ & $(0.021)$ & $(0.017)$ & $(0.019)$ \\
+ & $N$ & 13,615 & 13,105 & 13,338 & 12,834 \\
+\addlinespace
+$\geq 35$ & Estimate & $-0.061^{***}$ & $-0.066^{***}$ & $-0.058^{***}$ & $-0.068^{***}$ \\
+ & SE & $(0.020)$ & $(0.021)$ & $(0.019)$ & $(0.020)$ \\
+ & $N$ & 12,368 & 11,917 & 12,113 & 11,673 \\
+\addlinespace
+$\geq 40$ & Estimate & $-0.055^{***}$ & $-0.060^{***}$ & $-0.055^{***}$ & $-0.062^{***}$ \\
+ & SE & $(0.020)$ & $(0.021)$ & $(0.019)$ & $(0.020)$ \\
+ & $N$ & 11,366 & 10,951 & 11,129 & 10,725 \\
+\bottomrule
+\end{tabular}
+\begin{minipage}{0.96\textwidth}
+\footnotesize
+\textit{Notes:} Before trimming, the sample is restricted to \texttt{first\_month\_ltm} $\geq 1$ and \texttt{first\_month\_number\_of\_reviews} at least the threshold shown. Column headings report (price trim, price-change trim). Panel C applies no \texttt{ex\_super} restriction. Estimates use the main fuzzy RD specification with time fixed effects, a triangular kernel, MSE-optimal side-specific bandwidths, and standard errors clustered by listing ID. $N$ is the full pre-bandwidth analysis sample size. $^{***}p<0.01$, $^{**}p<0.05$, $^{*}p<0.10$.
+\end{minipage}
+\end{table}
