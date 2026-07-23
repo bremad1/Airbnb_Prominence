@@ -251,7 +251,7 @@ fit_one <- function(d, specification, first_fit = NULL) {
     y = d$price_diff,
     x = d$running_scr - 4.75,
     fuzzy = d$host_is_superhost2,
-    cluster = d$id,
+    #cluster = d$host_id,
     kernel = "tri",
     bwselect = "msetwo",
     p = 1,
@@ -307,19 +307,37 @@ fit_one <- function(d, specification, first_fit = NULL) {
   fit
 }
 
-run_task <- function(task, cell) {
+# NOTE: no "cell" argument here on purpose. cell is pushed to each worker's
+# global environment via clusterExport() below (see run_all_regressions()),
+# and this function - having environment(run_task) <- .GlobalEnv set right
+# after its definition - looks it up there. This avoids the anonymous
+# wrapper at the call site (function(i) run_task(tasks[i,,drop=FALSE], cell))
+# that used to capture run_all_regressions()'s entire local environment
+# (including the full Entire dataset) on every parLapplyLB call.
+run_task <- function(task) {
   d <- cell
   if (task$panel == "A") d <- d %>% filter(ex_super == "t")
   if (task$panel == "B") d <- d %>% filter(ex_super == "f")
   d <- d[condition_index(d, task$condition), , drop = FALSE]
   d$date3_ym <- droplevels(d$date3_ym)
   
-  first_fit <- tryCatch(fit_one(d, 1L), error = function(e) e)
+  first_fit <- NULL
   fits <- vector("list", 6L)
-  fits[[1L]] <- first_fit
-  for (specification in 2:6) {
-    fits[[specification]] <- if (inherits(first_fit, "error")) first_fit else
+  run_times <- numeric(6L)
+  
+  for (specification in 1:6) {
+    run_start <- Sys.time()
+    fit <- if (specification == 1L) {
+      tryCatch(fit_one(d, 1L), error = function(e) e)
+    } else if (inherits(first_fit, "error")) {
+      first_fit
+    } else {
       tryCatch(fit_one(d, specification, first_fit), error = function(e) e)
+    }
+    run_times[[specification]] <-
+      as.numeric(difftime(Sys.time(), run_start, units = "secs"))
+    fits[[specification]] <- fit
+    if (specification == 1L) first_fit <- fit
   }
   
   bind_rows(lapply(seq_along(fits), function(specification) {
@@ -329,7 +347,8 @@ run_task <- function(task, cell) {
         specification = specification, raw_n = nrow(d),
         coef_conv = NA_real_, se_conv = NA_real_, p_conv = NA_real_,
         h_left = NA_real_, h_right = NA_real_, obs_h = NA_integer_,
-        error = conditionMessage(fit), warning = NA_character_
+        error = conditionMessage(fit), warning = NA_character_,
+        run_time_sec = run_times[[specification]]
       )
     } else {
       fw <- attr(fit, "fit_warning")
@@ -339,7 +358,8 @@ run_task <- function(task, cell) {
         p_conv = fit$pv[[1L]], h_left = fit$bws[1, 1],
         h_right = fit$bws[1, 2], obs_h = sum(fit$N_h),
         error = NA_character_,
-        warning = if (is.null(fw)) NA_character_ else fw
+        warning = if (is.null(fw)) NA_character_ else fw,
+        run_time_sec = run_times[[specification]]
       )
     }
   })) %>% mutate(panel = task$panel, condition = task$condition)
@@ -354,6 +374,8 @@ tasks <- expand.grid(
 )
 
 run_all_regressions <- function() {
+  overall_start <- Sys.time()
+  
   detected_cores <- parallel::detectCores(logical = FALSE)
   if (is.na(detected_cores) || detected_cores < 1L) detected_cores <- 1L
   worker_count <- min(4L, detected_cores)
@@ -394,6 +416,9 @@ run_all_regressions <- function() {
         "%, change trim=", 100 * change_trim, "%"
       )
       
+      # cell is built exactly once per (price_trim, change_trim) combination
+      # here - NOT once per task. The 24 tasks (panel x condition) below all
+      # share this same cell.
       cell <- lapply(prechange, apply_filters, change_pct = change_trim) %>%
         lapply(add_price_quartiles) %>%
         bind_rows(.id = "quarter") %>%
@@ -405,11 +430,39 @@ run_all_regressions <- function() {
         envir = environment()
       )
       
+      cell_start <- Sys.time()
+      # No anonymous wrapper capturing cell here - run_task() looks up cell
+      # from the worker's global environment (just exported above).
       cell_results <- parallel::parLapplyLB(
         cl,
         seq_len(nrow(tasks)),
-        function(i) run_task(tasks[i, , drop = FALSE], cell)
+        function(i) run_task(tasks[i, , drop = FALSE])
       )
+      cell_elapsed <- as.numeric(
+        difftime(Sys.time(), cell_start, units = "secs")
+      )
+      
+      for (i in seq_len(nrow(tasks))) {
+        res <- cell_results[[i]]
+        for (j in seq_len(nrow(res))) {
+          status <- if (is.na(res$error[[j]])) {
+            sprintf("coef=%.4f, se=%.4f, p=%.4f, N_h=%d",
+                    res$coef_conv[[j]], res$se_conv[[j]],
+                    res$p_conv[[j]], res$obs_h[[j]])
+          } else {
+            paste0("ERROR: ", res$error[[j]])
+          }
+          message(sprintf(
+            "[price_trim=%.2f, change_trim=%.2f, panel=%s, condition=%s, spec=%d] 완료 (%.1f초) - %s",
+            price_trim, change_trim, res$panel[[j]], res$condition[[j]],
+            res$specification[[j]], res$run_time_sec[[j]], status
+          ))
+        }
+      }
+      message(sprintf(
+        "   -> (price_trim=%.2f, change_trim=%.2f) 전체 %d개 태스크(x6 spec) 소요 (병렬 %d워커): %.1f초",
+        price_trim, change_trim, nrow(tasks), worker_count, cell_elapsed
+      ))
       
       cell_result <- bind_rows(cell_results) %>%
         mutate(price_trim = price_trim, change_trim = change_trim)
@@ -417,6 +470,14 @@ run_all_regressions <- function() {
       results_list[[length(results_list) + 1L]] <- cell_result
     }
   }
+  
+  overall_elapsed <- as.numeric(
+    difftime(Sys.time(), overall_start, units = "secs")
+  )
+  message(sprintf(
+    "run_all_regressions 총 소요: %.1f초 (%.2f분)",
+    overall_elapsed, overall_elapsed / 60
+  ))
   
   bind_rows(results_list) %>%
     arrange(
@@ -427,6 +488,15 @@ run_all_regressions <- function() {
       specification
     )
 }
+
+# environment(...) <- .GlobalEnv pins each worker-side function's enclosing
+# environment to the top-level global environment (rather than wherever it
+# happened to be defined), so parLapplyLB never needs to serialize anything
+# beyond what clusterExport() explicitly sent.
+environment(condition_index) <- .GlobalEnv
+environment(diagnose_na) <- .GlobalEnv
+environment(fit_one) <- .GlobalEnv
+environment(run_task) <- .GlobalEnv
 
 results <- run_all_regressions()
 stopifnot(nrow(results) == 4L * 3L * 4L * 6L)
