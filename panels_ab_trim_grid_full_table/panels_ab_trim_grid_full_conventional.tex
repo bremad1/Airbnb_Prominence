@@ -1,0 +1,24 @@
+\begin{table}[!htbp]
+\centering
+\caption{FULL conventional estimates by trimming rule: Panels A and B}
+\label{tab:panels_ab_trim_grid_full}
+\small
+\begin{tabular}{rrrrrr}
+\toprule
+Price trim & Change trim & $N_A$ & Panel A & $N_B$ & Panel B \\
+\midrule
+0\% & 0\% & 16,039 & -0.066** (0.028) & 20,948 & 0.060* (0.034) \\
+0\% & 1\% & 15,737 & -0.079*** (0.025) & 20,426 & 0.000 (0.030) \\
+0\% & 5\% & 14,294 & -0.053*** (0.017) & 18,483 & 0.090*** (0.026) \\
+1\% & 0\% & 15,708 & -0.073** (0.029) & 20,327 & 0.078** (0.031) \\
+1\% & 1\% & 15,378 & -0.098*** (0.025) & 19,895 & 0.056** (0.026) \\
+1\% & 5\% & 13,929 & -0.052*** (0.017) & 18,023 & 0.108*** (0.024) \\
+5\% & 0\% & 14,071 & -0.105*** (0.031) & 18,010 & 0.089*** (0.032) \\
+5\% & 1\% & 13,735 & -0.129*** (0.025) & 17,587 & 0.063** (0.028) \\
+5\% & 5\% & 12,459 & -0.057*** (0.018) & 15,928 & 0.092*** (0.025) \\
+\bottomrule
+\end{tabular}
+\begin{minipage}{0.95\textwidth}\footnotesize
+Notes: Panel A is defined by \texttt{ex\_super=="t"} and Panel B by \texttt{ex\_super=="f"}. No \texttt{ex\_super2} or other additional sample restriction is imposed. Estimates are conventional column-(1) fuzzy RD estimates using side-specific MSE-optimal bandwidths, time fixed effects, and listing-clustered standard errors. Price trimming is applied to monthly price levels before reconstructing lags; change trimming is applied to the resulting quarterly price changes.
+\end{minipage}
+\end{table}

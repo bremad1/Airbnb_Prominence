@@ -1,0 +1,37 @@
+\begin{table}[!htbp]
+\centering
+\caption{Pooled sample, prior cumulative reviews $\geq25$: Conventional}
+\begin{tabular}{lcccccc}
+\toprule
+Condition & (1) & (2) & (3) & (4) & (5) & (6) \\
+\midrule
+FULL & -0.121*** & -0.097*** & -0.126*** & -0.089*** & -0.065*** & -0.213*** \\
+ & (0.035) & (0.027) & (0.031) & (0.023) & (0.020) & (0.040) \\
+\textit{obs} & 1134 & 2697 & 1481 & 2427 & 3378 & 1123 \\
+Q1Q2 & -0.012 & -0.015 & -0.029 & -0.031 & -0.023 & -0.095* \\
+ & (0.051) & (0.032) & (0.045) & (0.032) & (0.027) & (0.057) \\
+\textit{obs} & 1046 & 2616 & 756 & 1212 & 1626 & 1059 \\
+Q2Q3 & -0.042 & -0.037 & -0.047 & -0.038 & -0.038 & -0.137*** \\
+ & (0.046) & (0.033) & (0.043) & (0.034) & (0.030) & (0.052) \\
+\textit{obs} & 869 & 1920 & 742 & 1251 & 1698 & 927 \\
+Q3Q4 & -0.201*** & -0.160*** & -0.192*** & -0.137*** & -0.102*** & -0.306*** \\
+ & (0.043) & (0.036) & (0.041) & (0.034) & (0.030) & (0.060) \\
+\textit{obs} & 603 & 1424 & 725 & 1215 & 1752 & 505 \\
+Q1 & -0.114 & -0.094** & -0.125* & -0.087** & -0.060* & -0.150* \\
+ & (0.080) & (0.043) & (0.068) & (0.040) & (0.031) & (0.087) \\
+\textit{obs} & 248 & 483 & 371 & 586 & 804 & 269 \\
+Q2 & 0.060 & 0.010 & 0.044 & 0.021 & 0.013 & -0.062 \\
+ & (0.073) & (0.046) & (0.065) & (0.049) & (0.042) & (0.077) \\
+\textit{obs} & 548 & 1320 & 385 & 626 & 822 & 567 \\
+Q3 & -0.133** & -0.085* & -0.128** & -0.098* & -0.094** & -0.186** \\
+ & (0.061) & (0.045) & (0.060) & (0.051) & (0.046) & (0.075) \\
+\textit{obs} & 517 & 1480 & 357 & 625 & 876 & 484 \\
+Q4 & -0.262*** & -0.238*** & -0.288*** & -0.194*** & -0.121*** & -0.442*** \\
+ & (0.066) & (0.054) & (0.063) & (0.049) & (0.042) & (0.092) \\
+\textit{obs} & 255 & 581 & 368 & 590 & 876 & 230 \\
+\bottomrule
+\end{tabular}
+\begin{minipage}{0.98\textwidth}\footnotesize
+Notes: All samples impose \texttt{ex\_super2==t}. The pooled sample imposes no \texttt{ex\_super} restriction. The sample is restricted to listings with at least 25 prior cumulative reviews. Column (1) uses MSE-optimal bandwidths with time fixed effects; column (2) doubles those bandwidths; columns (3)--(5) use (0.2,0.1), (0.3,0.15), and (0.4,0.2); column (6) omits time fixed effects. Standard errors are clustered by listing ID.
+\end{minipage}
+\end{table}

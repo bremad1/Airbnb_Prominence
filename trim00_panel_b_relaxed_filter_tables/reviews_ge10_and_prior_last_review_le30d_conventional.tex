@@ -1,0 +1,39 @@
+\begin{table}[!htbp]
+\centering
+\caption{Panel B, Prior reviews $\geq 10$ and prior last review $\leq 30$ days: Conventional estimates}
+\label{tab:trim00:b:reviews_ge10_and_prior_last_review_le30d}
+\small
+\begin{tabular}{lcccccc}
+\toprule
+Condition & (1) & (2) & (3) & (4) & (5) & (6) \\
+\midrule
+FULL & -0.125** & -0.135*** & -0.144*** & -0.121*** & -0.088*** & -0.043 \\
+ & (0.058) & (0.038) & (0.046) & (0.036) & (0.032) & (0.064) \\
+\textit{obs} & 1,614 & 2,493 & 2,069 & 2,581 & 2,877 & 1,488 \\
+Q1Q2 & -0.109** & -0.159*** & -0.169*** & -0.154*** & -0.126*** & -0.062 \\
+ & (0.051) & (0.043) & (0.051) & (0.043) & (0.039) & (0.055) \\
+\textit{obs} &   832 & 1,207 &   992 & 1,217 & 1,353 &   815 \\
+Q2Q3 & -0.125** & -0.101*** & -0.120** & -0.111*** & -0.099*** & 0.018 \\
+ & (0.051) & (0.038) & (0.049) & (0.041) & (0.037) & (0.062) \\
+\textit{obs} & 1,026 & 1,429 & 1,085 & 1,321 & 1,466 &   826 \\
+Q3Q4 & -0.064 & -0.038 & -0.064 & -0.050 & -0.029 & -0.045 \\
+ & (0.147) & (0.065) & (0.094) & (0.066) & (0.055) & (0.113) \\
+\textit{obs} &   766 & 1,344 & 1,077 & 1,364 & 1,524 & 1,036 \\
+Q1 & -0.099 & -0.065 & -0.083 & -0.089 & -0.068 & -0.037 \\
+ & (0.094) & (0.070) & (0.088) & (0.076) & (0.068) & (0.076) \\
+\textit{obs} & 424 & 618 & 463 & 582 & 648 & 417 \\
+Q2 & -0.222*** & -0.170*** & -0.215*** & -0.187*** & -0.161*** & -0.170** \\
+ & (0.072) & (0.057) & (0.068) & (0.060) & (0.054) & (0.076) \\
+\textit{obs} & 476 & 677 & 529 & 635 & 705 & 517 \\
+Q3 & 0.084 & -0.001 & 0.026 & -0.019 & -0.034 & 0.135 \\
+ & (0.092) & (0.059) & (0.078) & (0.063) & (0.056) & (0.120) \\
+\textit{obs} & 412 & 688 & 556 & 686 & 761 & 417 \\
+Q4 & 5.289 & 0.009 & -0.232 & -0.022 & 0.061 & 0.566 \\
+ & (64.224) & (0.192) & (0.324) & (0.175) & (0.139) & (0.617) \\
+\textit{obs} & 347 & 664 & 521 & 678 & 763 & 262 \\
+\bottomrule
+\end{tabular}
+\begin{minipage}{0.98\textwidth}\footnotesize
+Notes: Price trim and price-change trim are both 0\%. Panel B is defined by \texttt{ex\_super=="f"}; no \texttt{ex\_super2} restriction is imposed. All restrictions use pre-treatment variables. Column (1) uses side-specific MSE-optimal bandwidths with time fixed effects; column (2) doubles those bandwidths; columns (3)--(5) use (0.2,0.1), (0.3,0.15), and (0.4,0.2); column (6) omits time fixed effects. Standard errors are clustered by listing ID.
+\end{minipage}
+\end{table}

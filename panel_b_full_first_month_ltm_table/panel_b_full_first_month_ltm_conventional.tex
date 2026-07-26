@@ -1,0 +1,35 @@
+\begin{table}[!htbp]
+\centering
+\caption{Panel B FULL sample with \texttt{first\_month\_ltm $\geq 1$}: Conventional estimates}
+\label{tab:panel_b_full_first_month_ltm}
+\small
+\begin{tabular}{lcccccc}
+\toprule
+Trimming $(p,c)$ & (1) & (2) & (3) & (4) & (5) & (6) \\
+\midrule
+(0\%,0\%) & 0.060* & -0.081*** & -0.031 & -0.073*** & -0.044* & 0.322*** \\
+ & (0.034) & (0.026) & (0.035) & (0.028) & (0.024) & (0.062) \\
+\textit{obs} & 20,948 & 20,948 & 20,948 & 20,948 & 20,948 & 20,948 \\
+\textit{obs\_h} &  7,459 & 10,811 &  7,515 &  9,912 & 10,947 &  5,314 \\
+
+(0\%,1\%) & 0.000 & -0.038* & 0.016 & -0.037 & -0.034 & 0.275*** \\
+ & (0.030) & (0.021) & (0.031) & (0.024) & (0.021) & (0.055) \\
+\textit{obs} & 20,426 & 20,426 & 20,426 & 20,426 & 20,426 & 20,426 \\
+\textit{obs\_h} &  7,528 & 10,917 &  7,249 &  9,609 & 10,633 &  5,606 \\
+
+(1\%,0\%) & 0.078** & 0.024 & 0.083*** & 0.032 & 0.026 & 0.272*** \\
+ & (0.031) & (0.021) & (0.032) & (0.024) & (0.022) & (0.051) \\
+\textit{obs} & 20,327 & 20,327 & 20,327 & 20,327 & 20,327 & 20,327 \\
+\textit{obs\_h} &  7,301 & 10,620 &  7,162 &  9,521 & 10,531 &  5,501 \\
+
+(1\%,1\%) & 0.056** & 0.020 & 0.072*** & 0.028 & 0.023 & 0.270*** \\
+ & (0.026) & (0.018) & (0.027) & (0.021) & (0.019) & (0.047) \\
+\textit{obs} & 19,895 & 19,895 & 19,895 & 19,895 & 19,895 & 19,895 \\
+\textit{obs\_h} &  7,491 & 10,714 &  7,016 &  9,332 & 10,326 &  5,339 \\
+
+\bottomrule
+\end{tabular}
+\begin{minipage}{0.98\textwidth}\footnotesize
+Notes: Panel B is defined by \texttt{ex\_super=="f"}. The core sample construction is retained and the only additional activity restriction is \texttt{first\_month\_ltm $\geq 1$}; no \texttt{ex\_super2}, review-count, rating, or other added filter is imposed. Column (1) uses side-specific MSE-optimal bandwidths with time fixed effects; column (2) doubles those bandwidths; columns (3)--(5) use (0.2,0.1), (0.3,0.15), and (0.4,0.2); column (6) omits time fixed effects. Standard errors are clustered by listing ID. \textit{obs} is the raw FULL sample size and \textit{obs\_h} is the number inside the RD bandwidth.
+\end{minipage}
+\end{table}

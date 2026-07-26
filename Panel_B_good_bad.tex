@@ -1,0 +1,212 @@
+\documentclass[12pt]{article}
+\usepackage{amsmath,amssymb}
+\usepackage[margin=1in]{geometry}
+\usepackage{hyperref}
+
+\begin{document}
+
+\section{Overview}
+
+This document summarizes the refinements considered for Panel B. I divide the
+results into relatively good and bad results. A good result does not
+necessarily mean that the specification should be used as the main result. It
+means that the coefficient moves in the expected negative direction without
+an obvious data-quality concern. Throughout the search, I exclude restrictions
+based on discrepancies between the scraped data and Inside Airbnb data.
+
+The original Panel B estimate is approximately $0.09^{***}$. The clearest
+general pattern is that conditioning on $Superhost_{t-2}=1$ often moves the
+coefficient toward zero or into negative territory. Price trimming alone does
+not generate this pattern.
+
+
+\section{Good Results}
+
+\subsection{Conditioning on $Superhost_{t-2}=1$}
+
+The most interpretable refinement is to restrict Panel B to listings that held
+Superhost status two periods earlier, i.e., \texttt{ex\_super2 = ``t''}. This
+constructs a more homogeneous group of listings that recently lost Superhost
+status. Across the nine price and price-change trimming combinations, six
+coefficients are negative, although none is statistically significant.
+
+\begin{table}[h]
+\centering
+\caption{Panel B with \texttt{ex\_super2 = ``t''}: selected trimming results}
+\label{tab:exsuper2_trim}
+\begin{tabular}{lcccc}
+\hline
+Price trim & Change trim & $N$ & Conventional & Bias-corrected/robust \\
+\hline
+0\% & 0\% & 1,327 & $-0.065$ $(0.091)$ & $-0.067$ $(0.104)$ \\
+1\% & 0\% & 1,304 & $-0.084$ $(0.087)$ & $-0.087$ $(0.100)$ \\
+1\% & 1\% & 1,269 & $-0.005$ $(0.070)$ & $-0.005$ $(0.078)$ \\
+5\% & 0\% & 1,128 & $-0.090$ $(0.112)$ & $-0.114$ $(0.130)$ \\
+5\% & 1\% & 1,101 & $-0.050$ $(0.084)$ & $-0.062$ $(0.096)$ \\
+\hline
+\end{tabular}
+\end{table}
+
+This pattern suggests that \texttt{ex\_super2} is more important than the
+trimming rule itself. Its main limitation is the decline in sample size. For
+example, under the original 5\% price-change trimming rule, Panel B falls from
+18,483 observations to 1,181 observations after applying \texttt{ex\_super2}.
+
+
+\subsection{Rating and review activity after applying \texttt{ex\_super2}}
+
+After applying \texttt{ex\_super2}, a rating cutoff of 4.7 or above makes the
+FULL, Q1Q2, Q2Q3, and Q3Q4 coefficients negative. However, none is
+statistically significant, and the sample falls to 818 observations. The main
+pattern is therefore favorable, but the cutoff should be justified before it
+is used.
+
+Review activity produces stronger negative estimates. The main candidates are
+reported below. These estimates use 5\% price trimming and no price-change
+trimming.
+
+\begin{table}[h]
+\centering
+\caption{Review-based refinements of Panel B}
+\label{tab:review_refinements}
+\small
+\begin{tabular}{p{0.38\textwidth}ccc}
+\hline
+Restriction & $N$ & Conventional & Bias-corrected/robust \\
+\hline
+Prior reviews $\geq$ quarter median
+ & 515 & $-0.159^{**}$ $(0.076)$ & $-0.181^{**}$ $(0.085)$ \\
+Prior reviews $\geq 30$
+ & 561 & $-0.142^{**}$ $(0.071)$ & $-0.152^{*}$ $(0.080)$ \\
+Prior reviews $\geq$ quarter median and recency $\leq$ quarter median
+ & 248 & $-0.102$ $(0.065)$ & $-0.093$ $(0.073)$ \\
+\hline
+\end{tabular}
+\end{table}
+
+The quarter-median rule is less arbitrary than an absolute review cutoff and
+produces a statistically significant negative coefficient. However, its
+effect is larger than the preferred 0.15 bound. The joint median restriction
+satisfies the effect-size bound, but it is not statistically significant.
+The 30-review result is also a boundary case: the conventional estimate is
+within the bound, while the bias-corrected estimate is slightly outside it.
+
+
+\subsection{Conditioning on recent listing activity}
+
+Conditioning on \texttt{ex\_quarter\_ltm $\geq 5$} without
+\texttt{ex\_super2} changes the FULL coefficient to $-0.017$ $(0.026)$ and
+produces several negative lower-price estimates. This is an improvement over
+the original positive coefficient, but it remains statistically insignificant
+and the cutoff is somewhat arbitrary. The higher-price subgroup also does not
+follow the Panel A pattern.
+
+
+\subsection{Panel A consistency check}
+
+As a consistency check, I reconstructed the quarterly data using 5\% price
+trimming and no price-change trimming. For Panel A, all six FULL-sample
+specifications remain negative and statistically significant. The conventional
+estimates are $-0.105^{***}$, $-0.045^{**}$, $-0.094^{***}$,
+$-0.053^{***}$, $-0.039^{**}$, and $-0.208^{***}$. Thus, the revised data
+construction does not remove the main Panel A pattern.
+
+
+\section{Bad Results}
+
+\subsection{Price and price-change trimming without \texttt{ex\_super2}}
+
+Trimming the price level and the price change at 0\%, 1\%, or 5\% produces
+nine combinations. None generates a negative Panel B estimate. The estimates
+range from approximately zero to 0.108, and most are positive and statistically
+significant. Therefore, trimming alone does not solve the Panel B problem.
+
+\begin{table}[h]
+\centering
+\caption{Panel B estimates from trimming alone}
+\label{tab:trim_only}
+\begin{tabular}{lccc}
+\hline
+ & \multicolumn{3}{c}{Price-change trimming} \\
+Price trimming & 0\% & 1\% & 5\% \\
+\hline
+0\% & $0.060^{*}$ & $0.000$ & $0.090^{***}$ \\
+1\% & $0.078^{**}$ & $0.056^{**}$ & $0.108^{***}$ \\
+5\% & $0.089^{***}$ & $0.063^{**}$ & $0.092^{***}$ \\
+\hline
+\end{tabular}
+\end{table}
+
+
+\subsection{Past running-variable restrictions}
+
+I considered restrictions such as $x_{t-1}\geq 4.5$ and
+$x_{t-1}\geq 4.75$. The first-stage estimates become unstable across Panel B
+subgroups, while the second-stage coefficients remain positive. These
+restrictions are therefore not useful.
+
+
+\subsection{Covariate cutoffs with little improvement}
+
+Conditioning on \texttt{ex\_quarter\_rating $\geq 4.5$}, cumulative reviews
+$\geq 5$, or \texttt{ex\_quarter\_ltm $\geq 1$ or $\geq 3$} produces results
+similar to the original specification. The Panel B coefficients remain
+positive in the main sample. Combining LTM $\geq 3$ with cumulative reviews
+$\geq 5$ also produces a positive FULL estimate of 0.038 $(0.025)$.
+
+After applying \texttt{ex\_super2}, LTM cutoffs from 1 to 5 do not improve the
+FULL estimate either: the estimates remain positive, between 0.024 and 0.079.
+Combining LTM and rating cutoffs reduces the sample further and generally moves
+the estimates toward zero rather than producing stable negative effects.
+
+
+\subsection{Other listing filters}
+
+The following filters do not produce a stable, statistically significant FULL
+effect:
+\begin{itemize}
+    \item non-missing host response rate: 0.011 $(0.054)$, $N=891$;
+    \item days since last review $\leq 60$: 0.002 $(0.069)$, $N=378$;
+    \item minimum nights $\geq 30$ and cumulative reviews $\leq 10$:
+    $-0.097$ $(0.106)$, $N=256$.
+\end{itemize}
+The last two restrictions also leave very small samples, and their absolute
+cutoffs require additional justification.
+
+
+\subsection{Large and unstable exploratory estimates}
+
+Restricting the sample to single-listing hosts produces a conventional
+estimate of $-0.254^{*}$ and a bias-corrected estimate of $-0.277^{*}$ under
+one trimming rule. Combining the single-listing restriction with rating
+$\geq 4.7$ produces even larger estimates, $-0.334^{*}$ and $-0.376^{*}$.
+These magnitudes are well outside the 0.15 effect-size bound. They also do not
+survive correction for the large number of specifications considered, so I do
+not treat them as credible main results.
+
+
+\section{Overall Pattern}
+
+The results point to three conclusions. First, \texttt{ex\_super2} is the only
+simple restriction that repeatedly moves Panel B estimates in the expected
+negative direction. Second, price trimming by itself does not explain the
+positive Panel B coefficient. Third, review-based filters can produce negative
+and sometimes significant estimates, but the significant estimates either
+slightly exceed the preferred effect-size bound or depend on a cutoff that is
+difficult to justify. The most defensible bounded result is the joint
+quarter-median review and recency restriction, but it is not statistically
+significant.
+
+These findings should therefore be described as exploratory. No clean
+specification examined so far is both statistically significant under
+conventional and robust inference and below 0.15 in absolute value. Results
+based on cross-source data discrepancies are intentionally excluded.
+
+\vspace{0.5em}
+\noindent\footnotesize
+\textit{Notes:} Unless otherwise stated, reported results correspond to the
+first RD specification: side-specific MSE-optimal bandwidths, time fixed
+effects, triangular kernel, fuzzy RD at 4.75, and standard errors clustered by
+listing ID. $^{***}p<0.01$, $^{**}p<0.05$, $^{*}p<0.10$.
+
+\end{document}

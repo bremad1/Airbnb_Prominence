@@ -1,0 +1,37 @@
+\begin{table}[!htbp]
+\centering
+\caption{Panel A, prior cumulative reviews $\geq25$: Bias-Corrected with Robust Inference}
+\begin{tabular}{lcccccc}
+\toprule
+Condition & (1) & (2) & (3) & (4) & (5) & (6) \\
+\midrule
+FULL & -0.138** & -0.166*** & -0.153*** & -0.172*** & -0.151*** & -0.273*** \\
+ & (0.055) & (0.051) & (0.052) & (0.040) & (0.036) & (0.063) \\
+\textit{obs} & 1191 & 3159 & 1208 & 2093 & 3013 & 1020 \\
+Q1Q2 & 0.113 & 0.054 & 0.057 & -0.004 & -0.016 & -0.023 \\
+ & (0.122) & (0.097) & (0.090) & (0.058) & (0.052) & (0.131) \\
+\textit{obs} & 749 & 1584 & 618 & 1039 & 1433 & 946 \\
+Q2Q3 & -0.015 & -0.062 & -0.042 & -0.052 & -0.053 & -0.207** \\
+ & (0.086) & (0.076) & (0.079) & (0.061) & (0.055) & (0.105) \\
+\textit{obs} & 725 & 1701 & 621 & 1091 & 1527 & 878 \\
+Q3Q4 & -0.259*** & -0.300*** & -0.273*** & -0.295*** & -0.256*** & -0.407*** \\
+ & (0.063) & (0.067) & (0.069) & (0.058) & (0.054) & (0.078) \\
+\textit{obs} & 521 & 1450 & 590 & 1054 & 1580 & 424 \\
+Q1 & -0.091 & -0.122 & -0.144* & -0.155*** & -0.143*** & -0.099 \\
+ & (0.103) & (0.119) & (0.078) & (0.049) & (0.044) & (0.107) \\
+\textit{obs} & 158 & 353 & 295 & 496 & 701 & 170 \\
+Q2 & 0.316 & 0.200 & 0.210 & 0.125 & 0.096 & 0.073 \\
+ & (0.204) & (0.145) & (0.135) & (0.091) & (0.082) & (0.199) \\
+\textit{obs} & 379 & 820 & 323 & 543 & 732 & 482 \\
+Q3 & -0.225** & -0.255** & -0.233** & -0.212** & -0.194** & -0.389** \\
+ & (0.112) & (0.110) & (0.115) & (0.096) & (0.088) & (0.155) \\
+\textit{obs} & 400 & 925 & 298 & 548 & 795 & 390 \\
+Q4 & -0.262*** & -0.360*** & -0.297*** & -0.381*** & -0.331*** & -0.513*** \\
+ & (0.085) & (0.094) & (0.095) & (0.074) & (0.072) & (0.100) \\
+\textit{obs} & 199 & 526 & 292 & 506 & 785 & 188 \\
+\bottomrule
+\end{tabular}
+\begin{minipage}{0.98\textwidth}\footnotesize
+Notes: All samples impose \texttt{ex\_super2==t}. Panel A is defined by \texttt{ex\_super==t}. The sample is restricted to listings with at least 25 prior cumulative reviews. Column (1) uses MSE-optimal bandwidths with time fixed effects; column (2) doubles those bandwidths; columns (3)--(5) use (0.2,0.1), (0.3,0.15), and (0.4,0.2); column (6) omits time fixed effects. Standard errors are clustered by listing ID.
+\end{minipage}
+\end{table}
