@@ -42,9 +42,18 @@ sys.source(
 )
 placebo_adaptive <- PLACEBO_ADAPTIVE_ENV$placebo_adaptive
 
+# Isolate the N_h >= 50 placebo variant as well.
+PLACEBO2_ENV <- new.env(parent = .GlobalEnv)
+sys.source(
+  file.path(FINAL2_FUNCTIONS_DIR, "func", "placebo2.R"),
+  envir = PLACEBO2_ENV
+)
+placebo2 <- PLACEBO2_ENV$placebo2
+
 invisible(c(
   "make_3month_data",
   "placebo",
+  "placebo2",
   "placebo_adaptive",
   "mccrary"
 ))

@@ -43,7 +43,7 @@ trim_quarter_sample <- BALANCED_3MONTH_HELPERS$trim_quarter_sample
 target_quarters <- BALANCED_3MONTH_HELPERS$target_quarters
 
 TRUE_CUTOFF <- 4.75
-CANDIDATE_CUTOFFS <- seq(4.55, 4.95, by = 0.001)
+CANDIDATE_CUTOFFS <- seq(4.35, 4.95, by = 0.001)
 OUTPUT_ROOT <- file.path(
   PLACEBO_FINAL_DIR,
   "results",
