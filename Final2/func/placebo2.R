@@ -16,11 +16,31 @@ sys.source(
   envir = environment()
 )
 
+# Pre-specified balanced placebo design used by placebo2():
+#   - paired cutoffs at equal distances on either side of 4.75
+#   - 0.005 grid spacing and a common maximum distance of 0.10
+#   - own-msetwo first-stage and sharp RD estimates only (no fixed h)
+#   - placebo input samples stop at 4.75, so neither h nor b can use
+#     observations from the other side of the true discontinuity
+#   - a distance pair enters the ranking only when both estimates have at
+#     least PLACEBO2_MIN_N_PER_SIDE effective observations on each RD side
+PLACEBO2_GRID_STEP <- 0.005
+PLACEBO2_MAX_DISTANCE <- 0.10
+PLACEBO2_DISTANCES <- seq(
+  PLACEBO2_GRID_STEP,
+  PLACEBO2_MAX_DISTANCE,
+  by = PLACEBO2_GRID_STEP
+)
+PLACEBO2_CANDIDATE_CUTOFFS <- sort(unique(round(c(
+  TRUE_CUTOFF - PLACEBO2_DISTANCES,
+  TRUE_CUTOFF,
+  TRUE_CUTOFF + PLACEBO2_DISTANCES
+), 8L)))
 PLACEBO2_MIN_N_PER_SIDE <- 50L
 PLACEBO2_OUTPUT_ROOT <- file.path(
   PLACEBO2_FINAL2_DIR,
   "results",
-  "balanced_3month_fuzzy_sharp_placebo2"
+  "balanced_3month_fuzzy_sharp_placebo2_paired005_masspoints_off"
 )
 
 placebo2_empty_method_row <- empty_method_row
@@ -73,6 +93,12 @@ add_ranking_fields <- function(results) {
       method = factor(method, levels = METHOD_LEVELS),
       is_true_cutoff = abs(cutoff - TRUE_CUTOFF) < 1e-10,
       is_placebo = !is_true_cutoff,
+      cutoff_side = case_when(
+        cutoff < TRUE_CUTOFF ~ -1L,
+        cutoff > TRUE_CUTOFF ~ 1L,
+        TRUE ~ 0L
+      ),
+      distance_from_true = round(abs(cutoff - TRUE_CUTOFF), 8L),
       bandwidth_left_endpoint = cutoff - bandwidth_left,
       bandwidth_right_endpoint = cutoff + bandwidth_right,
       bandwidth_contains_true_cutoff =
@@ -86,10 +112,22 @@ add_ranking_fields <- function(results) {
         is.finite(effective_n_right) &
         effective_n_left >= PLACEBO2_MIN_N_PER_SIDE &
         effective_n_right >= PLACEBO2_MIN_N_PER_SIDE,
-      eligible_for_rank =
-        enough_side_n &
-        (is_true_cutoff | !bandwidth_contains_true_cutoff),
-      is_sharp_method = method %in% METHOD_LEVELS[4:length(METHOD_LEVELS)],
+      base_eligible_for_rank =
+        enough_side_n & is.finite(coefficient) & is.na(error),
+      is_sharp_method = method %in% METHOD_LEVELS[4:length(METHOD_LEVELS)]
+    ) %>%
+    group_by(method, distance_from_true) %>%
+    mutate(
+      pair_complete = if_else(
+        is_true_cutoff,
+        TRUE,
+        any(base_eligible_for_rank & cutoff_side == -1L) &
+          any(base_eligible_for_rank & cutoff_side == 1L)
+      ),
+      eligible_for_rank = base_eligible_for_rank & pair_complete
+    ) %>%
+    ungroup() %>%
+    mutate(
       coefficient_for_rank = if_else(
         eligible_for_rank,
         coefficient,
@@ -147,7 +185,7 @@ make_method_plot <- function(
     filter(has_ci, is.finite(ci_low), is.finite(ci_high))
   excluded_rows <- all_rows %>%
     filter(
-      bandwidth_contains_true_cutoff | !enough_side_n,
+      is_placebo & !eligible_for_rank,
       is.finite(coefficient)
     )
   true_rows <- all_rows %>%
@@ -215,7 +253,7 @@ make_method_plot <- function(
       title = title,
       subtitle = paste0(
         subtitle,
-        " Red X also marks N_h < ",
+        " Red X marks an incomplete distance pair or N_h < ",
         PLACEBO2_MIN_N_PER_SIDE,
         " on either side."
       ),
@@ -233,30 +271,287 @@ write_rank_tex <- function(results, panel, review_min, output_file) {
     output_file
   )
   tex <- readLines(output_file, warn = FALSE)
-  old_note <- "bandwidth window contains 4.75 are excluded from the ranking. "
+  old_note <- paste0(
+    "Placebo cutoffs whose bandwidth window contains 4.75 are excluded ",
+    "from the ranking. "
+  )
   new_note <- paste0(
-    old_note,
-    "A cutoff is also excluded when either side of the selected bandwidth ",
-    "contains fewer than ", PLACEBO2_MIN_N_PER_SIDE, " observations. "
+    "Placebo samples are truncated at 4.75 before bandwidth selection. ",
+    "Equal-distance cutoffs on both sides enter the ranking as a pair only ",
+    "when both estimates contain at least ", PLACEBO2_MIN_N_PER_SIDE,
+    " effective observations on each RD side. "
   )
   tex <- sub(old_note, new_note, tex, fixed = TRUE)
   writeLines(tex, output_file, useBytes = TRUE)
 }
 
+placebo2_sample_at_cutoff <- function(data, cutoff) {
+  if (cutoff < TRUE_CUTOFF) {
+    return(data %>% filter(running_scr < TRUE_CUTOFF))
+  }
+  if (cutoff > TRUE_CUTOFF) {
+    return(data %>% filter(running_scr > TRUE_CUTOFF))
+  }
+  data
+}
+
+placebo2_make_rd_args <- function(data, cutoff) {
+  args <- make_rd_args(data, cutoff)
+  args$masspoints <- "off"
+  args
+}
+
+placebo2_run_first_stage_at_cutoff <- function(data, cutoff) {
+  fit_data <- placebo2_sample_at_cutoff(data, cutoff)
+  first_stage_args <- placebo2_make_rd_args(fit_data, cutoff)
+  first_stage_args$y <- fit_data$.fuzzy_treatment
+
+  fit <- tryCatch(
+    suppressWarnings(do.call(
+      rdrobust::rdrobust,
+      c(first_stage_args, list(bwselect = "msetwo"))
+    )),
+    error = function(e) e
+  )
+
+  if (inherits(fit, "error")) {
+    return(empty_method_row(
+      METHOD_LEVELS[[2L]],
+      cutoff,
+      conditionMessage(fit)
+    ))
+  }
+
+  extract_bias_corrected(fit, METHOD_LEVELS[[2L]], cutoff)
+}
+
+placebo2_run_sharp_at_cutoff <- function(data, cutoff) {
+  fit_data <- placebo2_sample_at_cutoff(data, cutoff)
+  fit <- tryCatch(
+    suppressWarnings(do.call(
+      rdrobust::rdrobust,
+      c(placebo2_make_rd_args(fit_data, cutoff), list(bwselect = "msetwo"))
+    )),
+    error = function(e) e
+  )
+
+  if (inherits(fit, "error")) {
+    return(empty_method_row(
+      METHOD_LEVELS[[5L]],
+      cutoff,
+      conditionMessage(fit)
+    ))
+  }
+
+  extract_bias_corrected(fit, METHOD_LEVELS[[5L]], cutoff)
+}
+
+placebo2_run_panel <- function(
+    base_sample,
+    panel = c("A", "B"),
+    review_min = 30,
+    output_dir = PLACEBO2_OUTPUT_ROOT,
+    candidate_cutoffs = PLACEBO2_CANDIDATE_CUTOFFS,
+    show_plots = TRUE,
+    save_outputs = TRUE,
+    analysis_sample = NULL
+) {
+  panel <- match.arg(panel)
+  file_prefix <- sprintf(
+    "%s%02d",
+    tolower(panel),
+    as.integer(review_min)
+  )
+  if (save_outputs) {
+    dir.create(output_dir, recursive = TRUE, showWarnings = FALSE)
+  }
+
+  if (is.null(analysis_sample)) {
+    analysis_sample <- prepare_placebo_sample(
+      base_sample,
+      panel,
+      review_min
+    )
+  }
+  candidate_cutoffs <- sort(unique(round(
+    c(candidate_cutoffs, TRUE_CUTOFF),
+    8L
+  )))
+  candidate_cutoffs <- candidate_cutoffs[
+    candidate_cutoffs > min(analysis_sample$running_scr) &
+      candidate_cutoffs < max(analysis_sample$running_scr)
+  ]
+
+  cat(sprintf(
+    paste0(
+      "\n=== placebo2 Panel %s; reviews >= %d ===\n",
+      "Candidate cutoffs: %d; rdrobust calls: %d\n"
+    ),
+    panel,
+    review_min,
+    length(candidate_cutoffs),
+    2L * length(candidate_cutoffs)
+  ))
+
+  first_stage_rows <- vector("list", length(candidate_cutoffs))
+  for (i in seq_along(candidate_cutoffs)) {
+    cutoff <- candidate_cutoffs[[i]]
+    if (i == 1L || i %% 10L == 0L || i == length(candidate_cutoffs)) {
+      cat(sprintf(
+        "[Panel %s first stage] cutoff=%.3f (%d/%d)\n",
+        panel,
+        cutoff,
+        i,
+        length(candidate_cutoffs)
+      ))
+    }
+    first_stage_rows[[i]] <- placebo2_run_first_stage_at_cutoff(
+      analysis_sample,
+      cutoff
+    )
+  }
+
+  sharp_rows <- vector("list", length(candidate_cutoffs))
+  for (i in seq_along(candidate_cutoffs)) {
+    cutoff <- candidate_cutoffs[[i]]
+    if (i == 1L || i %% 10L == 0L || i == length(candidate_cutoffs)) {
+      cat(sprintf(
+        "[Panel %s sharp own msetwo] cutoff=%.3f (%d/%d)\n",
+        panel,
+        cutoff,
+        i,
+        length(candidate_cutoffs)
+      ))
+    }
+    sharp_rows[[i]] <- placebo2_run_sharp_at_cutoff(
+      analysis_sample,
+      cutoff
+    )
+  }
+
+  results <- add_ranking_fields(bind_rows(
+    first_stage_rows,
+    sharp_rows
+  ))
+  sample_label <- sprintf("First-Month Review Count >= %d", review_min)
+  first_stage_plot <- make_method_plot(
+    results,
+    METHOD_LEVELS[[2L]],
+    sprintf("Panel %s: fuzzy first-stage placebo estimates", panel),
+    paste0(sample_label, "; direct treatment-jump RD with own msetwo bandwidths.")
+  )
+  sharp_plot <- make_method_plot(
+    results,
+    METHOD_LEVELS[[5L]],
+    sprintf("Panel %s: sharp RD placebo estimates", panel),
+    paste0(
+      sample_label,
+      "; own-msetwo Bias-Corrected estimates on cutoff-truncated samples."
+    )
+  )
+
+  if (show_plots) {
+    print(first_stage_plot)
+    print(sharp_plot)
+  }
+  if (save_outputs) {
+    ggsave(
+      file.path(output_dir, paste0(file_prefix, "_1.eps")),
+      first_stage_plot,
+      device = grDevices::cairo_ps,
+      width = 10,
+      height = 5.5,
+      onefile = FALSE,
+      fallback_resolution = 600
+    )
+    ggsave(
+      file.path(output_dir, paste0(file_prefix, "_2.eps")),
+      sharp_plot,
+      device = grDevices::cairo_ps,
+      width = 10,
+      height = 9,
+      onefile = FALSE,
+      fallback_resolution = 600
+    )
+    write_rank_tex(
+      results,
+      panel,
+      review_min,
+      file.path(output_dir, paste0(file_prefix, "_rank.tex"))
+    )
+    saveRDS(
+      list(
+        panel = panel,
+        review_min = review_min,
+        analysis_sample = analysis_sample,
+        results = results
+      ),
+      file.path(output_dir, paste0(file_prefix, "_results.rds"))
+    )
+  }
+
+  true_results <- results %>% filter(is_true_cutoff)
+  cat(sprintf(
+    "\n=== Panel %s; reviews >= %d; results at 4.75 ===\n",
+    panel,
+    review_min
+  ))
+  print(as.data.frame(true_results), row.names = FALSE)
+
+  failed_results <- results %>%
+    filter(!is.na(error)) %>%
+    count(method, name = "n_failed")
+  cat("\n=== Failed fits ===\n")
+  if (nrow(failed_results) == 0L) {
+    cat("None\n")
+  } else {
+    print(as.data.frame(failed_results), row.names = FALSE)
+  }
+
+  invisible(list(
+    panel = panel,
+    review_min = review_min,
+    analysis_sample = analysis_sample,
+    results = results,
+    true_results = true_results,
+    first_stage_plot = first_stage_plot,
+    sharp_plot = sharp_plot
+  ))
+}
+
 placebo2 <- function(
     output_root = PLACEBO2_OUTPUT_ROOT,
-    candidate_cutoffs = CANDIDATE_CUTOFFS,
+    candidate_cutoffs = PLACEBO2_CANDIDATE_CUTOFFS,
     show_plots = TRUE,
     save_outputs = TRUE,
     refresh_data = FALSE
 ) {
-  run_balanced_fuzzy_sharp_placebo(
-    output_root = output_root,
-    candidate_cutoffs = candidate_cutoffs,
-    show_plots = show_plots,
-    save_outputs = save_outputs,
+  base_sample <- build_placebo_base_sample(
     refresh_data = refresh_data
   )
+
+  output <- list(
+    panel_a_review_ge_30 = placebo2_run_panel(
+      base_sample = base_sample,
+      panel = "A",
+      review_min = 30,
+      output_dir = output_root,
+      candidate_cutoffs = candidate_cutoffs,
+      show_plots = show_plots,
+      save_outputs = save_outputs
+    ),
+    panel_b_review_ge_30 = placebo2_run_panel(
+      base_sample = base_sample,
+      panel = "B",
+      review_min = 30,
+      output_dir = output_root,
+      candidate_cutoffs = candidate_cutoffs,
+      show_plots = show_plots,
+      save_outputs = save_outputs
+    )
+  )
+
+  invisible(output)
 }
 
 if (sys.nframe() == 0L) {
