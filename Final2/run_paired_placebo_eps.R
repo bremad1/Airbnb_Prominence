@@ -16,8 +16,6 @@ TRUE_CUTOFF <- 4.75
 REVIEW_MIN <- 30L
 GRID_STEP <- 0.001
 MAX_DISTANCE <- 0.20
-MIN_PAIRS <- 15L
-MIN_N_PER_RD_SIDE <- 50L
 BWSELECT <- "msetwo"
 MASSPOINTS <- "adjust"
 OUTPUT_DIR <- file.path(
@@ -81,79 +79,12 @@ run_paired_fit <- function(data, cutoff) {
   )
 }
 
-complete_pair_distances <- function(results) {
-  distances <- sort(unique(results$distance[results$distance > 0]))
-  distances[vapply(
-    distances,
-    function(distance) {
-      pair <- results[
-        abs(results$distance - distance) < 1e-10,
-        ,
-        drop = FALSE
-      ]
-      nrow(pair) == 2L &&
-        all(is.na(pair$error)) &&
-        all(pair$n_left >= MIN_N_PER_RD_SIDE) &&
-        all(pair$n_right >= MIN_N_PER_RD_SIDE)
-    },
-    logical(1L)
-  )]
-}
-
-rank_window <- function(results, distances, estimand) {
-  selected <- results[
-    results$distance == 0 | results$distance %in% distances,
-    ,
-    drop = FALSE
-  ]
-  true_value <- selected[[estimand]][selected$distance == 0]
-  rank <- 1L + sum(selected[[estimand]] < true_value, na.rm = TRUE)
-
-  data.frame(
-    estimand = estimand,
-    min_distance = min(distances),
-    max_distance = max(distances),
-    pairs = length(distances),
-    rank = rank,
-    denominator = nrow(selected),
-    percentile = 100 * rank / nrow(selected)
-  )
-}
-
-select_best_conventional_window <- function(results, eligible_distances) {
-  candidates <- list()
-  index <- 0L
-
-  for (i in seq_along(eligible_distances)) {
-    for (j in i:length(eligible_distances)) {
-      distances <- eligible_distances[i:j]
-      if (length(distances) < MIN_PAIRS) next
-      index <- index + 1L
-      candidates[[index]] <- rank_window(
-        results,
-        distances,
-        "conv"
-      )
-    }
-  }
-
-  if (length(candidates) == 0L) {
-    stop("No eligible distance window contains at least ", MIN_PAIRS, " pairs.")
-  }
-
-  candidates <- dplyr::bind_rows(candidates)
-  candidates <- candidates[order(
-    candidates$percentile,
-    -candidates$denominator,
-    candidates$min_distance,
-    candidates$max_distance
-  ), , drop = FALSE]
-  candidates[1L, , drop = FALSE]
-}
-
-make_paired_plot <- function(results, panel, selected_distances) {
+make_paired_plot <- function(results, panel) {
   plot_data <- results[
-    results$distance == 0 | results$distance %in% selected_distances,
+    is.na(results$error) &
+      is.finite(results$conv) &
+      is.finite(results$conv_ci_low) &
+      is.finite(results$conv_ci_high),
     ,
     drop = FALSE
   ]
@@ -167,9 +98,7 @@ make_paired_plot <- function(results, panel, selected_distances) {
   )
 
   true_row <- plot_data[plot_data$distance == 0, , drop = FALSE]
-  conv_rank <- rank_window(results, selected_distances, "conv")
-  bc_rank <- rank_window(results, selected_distances, "bc")
-  eligible_label <- paste(sprintf("%.3f", selected_distances), collapse = ", ")
+  failed_fits <- sum(!is.na(results$error))
 
   note_paragraphs <- c(
     sprintf(
@@ -184,23 +113,15 @@ make_paired_plot <- function(results, panel, selected_distances) {
     ),
     sprintf(
       paste0(
-        "Candidate grid spacing = %.3f. The displayed distance interval ",
-        "[%.3f, %.3f] minimizes the conventional rank among all intervals ",
-        "over sorted eligible distances with at least %d complete pairs."
+        "Candidate grid spacing = %.3f. All successfully estimated cutoffs ",
+        "from %.2f to %.2f are displayed (%d of %d fits; %d failed fits)."
       ),
       GRID_STEP,
-      min(selected_distances),
-      max(selected_distances),
-      MIN_PAIRS
-    ),
-    sprintf(
-      paste0(
-        "A pair enters only when both cutoff fits have N_h >= %d on each ",
-        "RD side. Eligible distances shown (%d pairs): %s."
-      ),
-      MIN_N_PER_RD_SIDE,
-      length(selected_distances),
-      eligible_label
+      TRUE_CUTOFF - MAX_DISTANCE,
+      TRUE_CUTOFF + MAX_DISTANCE,
+      nrow(plot_data),
+      nrow(results),
+      failed_fits
     ),
     paste0(
       "For c < 4.75, estimation uses running_scr < 4.75 only; for c > ",
@@ -213,14 +134,8 @@ make_paired_plot <- function(results, panel, selected_distances) {
       MASSPOINTS
     ),
     sprintf(
-      "Lower estimates rank first. True conventional estimate = %.4f; conventional rank = %d/%d (%.2f%%); BC rank in the same interval = %d/%d (%.2f%%).",
-      true_row$conv,
-      conv_rank$rank,
-      conv_rank$denominator,
-      conv_rank$percentile,
-      bc_rank$rank,
-      bc_rank$denominator,
-      bc_rank$percentile
+      "True-cutoff conventional estimate = %.4f.",
+      true_row$conv
     )
   )
   note <- paste(
@@ -240,11 +155,11 @@ make_paired_plot <- function(results, panel, selected_distances) {
     ) +
     ggplot2::geom_errorbar(
       ggplot2::aes(ymin = conv_ci_low, ymax = conv_ci_high),
-      width = 0.0007,
+      width = 0.0004,
       linewidth = 0.35,
-      alpha = 0.7
+      alpha = 0.55
     ) +
-    ggplot2::geom_point(size = 2.1) +
+    ggplot2::geom_point(size = 1.25) +
     ggplot2::geom_vline(
       xintercept = TRUE_CUTOFF,
       linetype = "dotted",
@@ -262,10 +177,8 @@ make_paired_plot <- function(results, panel, selected_distances) {
       x = true_row$cutoff,
       y = true_row$conv,
       label = sprintf(
-        "  4.75: %.3f; rank %d/%d",
-        true_row$conv,
-        conv_rank$rank,
-        conv_rank$denominator
+        "  4.75: %.3f",
+        true_row$conv
       ),
       hjust = 0,
       vjust = -1.1,
@@ -279,7 +192,7 @@ make_paired_plot <- function(results, panel, selected_distances) {
     )) +
     ggplot2::labs(
       title = sprintf(
-        "Panel %s: balanced paired placebo-cutoff ranking",
+        "Panel %s: paired placebo-cutoff estimates over the full range",
         panel
       ),
       subtitle = paste0(
@@ -291,6 +204,17 @@ make_paired_plot <- function(results, panel, selected_distances) {
       y = "Conventional RD estimate",
       color = NULL,
       caption = note
+    ) +
+    ggplot2::scale_x_continuous(
+      breaks = seq(
+        TRUE_CUTOFF - MAX_DISTANCE,
+        TRUE_CUTOFF + MAX_DISTANCE,
+        by = 0.05
+      ),
+      limits = c(
+        TRUE_CUTOFF - MAX_DISTANCE,
+        TRUE_CUTOFF + MAX_DISTANCE
+      )
     ) +
     ggplot2::theme_minimal(base_size = 11) +
     ggplot2::theme(
@@ -322,13 +246,13 @@ run_panel <- function(base_sample, panel) {
     cutoffs,
     function(cutoff) run_paired_fit(analysis_sample, cutoff)
   ))
-  eligible_distances <- complete_pair_distances(results)
-  best <- select_best_conventional_window(results, eligible_distances)
-  selected_distances <- eligible_distances[
-    eligible_distances >= best$min_distance &
-      eligible_distances <= best$max_distance
-  ]
-  plot <- make_paired_plot(results, panel, selected_distances)
+  true_value <- results$conv[results$distance == 0]
+  full_rank <- 1L + sum(results$conv < true_value, na.rm = TRUE)
+  true_bc_value <- results$bc[results$distance == 0]
+  full_bc_rank <- 1L + sum(results$bc < true_bc_value, na.rm = TRUE)
+  rank_denominator <- sum(is.finite(results$conv))
+  bc_rank_denominator <- sum(is.finite(results$bc))
+  plot <- make_paired_plot(results, panel)
 
   output_file <- file.path(
     OUTPUT_DIR,
@@ -345,18 +269,22 @@ run_panel <- function(base_sample, panel) {
     fallback_resolution = 600
   )
 
-  bc_rank <- rank_window(results, selected_distances, "bc")
   message(
     "[Panel ", panel, "] saved ", output_file,
-    "; conventional rank ", best$rank, "/", best$denominator,
-    "; BC rank ", bc_rank$rank, "/", bc_rank$denominator
+    "; full-range conventional rank ", full_rank, "/", rank_denominator,
+    "; full-range BC rank ", full_bc_rank, "/", bc_rank_denominator
+  )
+  saveRDS(
+    results,
+    file.path(OUTPUT_DIR, sprintf("panel_%s_full_results.rds", tolower(panel)))
   )
   invisible(list(
     panel = panel,
     results = results,
-    selected_distances = selected_distances,
-    conventional_rank = best,
-    bc_rank = bc_rank,
+    full_range_rank = full_rank,
+    rank_denominator = rank_denominator,
+    full_range_bc_rank = full_bc_rank,
+    bc_rank_denominator = bc_rank_denominator,
     output_file = output_file
   ))
 }
