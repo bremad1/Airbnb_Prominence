@@ -266,6 +266,80 @@ trim_quarter_sample <- function(
     ungroup()
 }
 
+# Build the common RunRD estimation sample used by the final review-threshold
+# and price-subpanel tables. Keep this alongside trim_quarter_sample because
+# the standalone regression runner loads both functions through
+# load_balanced_3month_helpers().
+prepare_runrd_sample <- function(
+    quarterly_panel,
+    avg_price_trim = 0,
+    price_diff_trim = 0.05,
+    review_min = NULL
+) {
+  sample_data <- quarterly_panel %>%
+    filter(
+      !is.na(first_month_ltm),
+      first_month_ltm >= 1,
+      is.finite(avg_price),
+      is.finite(ex_avg),
+      is.finite(price_diff),
+      is.finite(running_scr),
+      !is.na(host_is_superhost2),
+      !is.na(ex_super),
+      !is.na(id)
+    )
+
+  if (!is.null(review_min)) {
+    sample_data <- sample_data %>%
+      filter(
+        !is.na(first_month_number_of_reviews),
+        first_month_number_of_reviews >= review_min
+      )
+  }
+
+  sample_data <- trim_quarter_sample(
+    sample_data,
+    avg_price_pct = avg_price_trim,
+    price_diff_pct = price_diff_trim
+  )
+
+  # Match the legacy RunRD sample: calculate ex-price quartiles separately
+  # within each quarter after applying activity, review, and trim restrictions.
+  sample_data %>%
+    group_by(quarter) %>%
+    group_modify(function(.x, .y) {
+      cutoffs <- quantile(
+        .x$ex_avg,
+        probs = c(0.25, 0.50, 0.75),
+        na.rm = TRUE,
+        names = FALSE
+      )
+
+      .x %>%
+        mutate(
+          ex_q1 = as.integer(ex_avg < cutoffs[[1L]]),
+          ex_q2 = as.integer(
+            ex_avg >= cutoffs[[1L]] & ex_avg < cutoffs[[2L]]
+          ),
+          ex_q3 = as.integer(
+            ex_avg >= cutoffs[[2L]] & ex_avg < cutoffs[[3L]]
+          ),
+          ex_q4 = as.integer(ex_avg >= cutoffs[[3L]])
+        )
+    }) %>%
+    ungroup() %>%
+    mutate(quarter = factor(quarter, levels = target_quarters))
+}
+
+runrd_subpanel_conditions <- function(data) {
+  list(
+    FULL = rep(TRUE, nrow(data)),
+    Q1Q2 = data$ex_q1 == 1L | data$ex_q2 == 1L,
+    Q2Q3 = data$ex_q2 == 1L | data$ex_q3 == 1L,
+    Q3Q4 = data$ex_q3 == 1L | data$ex_q4 == 1L
+  )
+}
+
 make_trim_audit <- function(
     before_trim,
     after_trim,

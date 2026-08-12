@@ -11,11 +11,15 @@ PROJECT_DIR <- if (file.exists(file.path(
 }
 
 source(file.path(PROJECT_DIR, "func", "balanced_3month_data.R"))
+source(file.path(PROJECT_DIR, "func", "sub_run_regression.R"))
+source(file.path(PROJECT_DIR, "func", "run_regression.R"))
+source(file.path(PROJECT_DIR, "func", "run_regression2.R"))
 source(file.path(PROJECT_DIR, "func", "mccrary.R"))
 source(file.path(PROJECT_DIR, "func", "placebo.R"))
-source(file.path(PROJECT_DIR, "func", "run_regression.R"))
 
 make_3month_data()
+sub_run_regression()
+run_regression()
+run_regression2()
 mccrary()
 placebo()
-run_regression()

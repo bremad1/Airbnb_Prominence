@@ -1,0 +1,73 @@
+% FINAL SUBPANEL TABLE | TRIM=(1,0) | PANEL=A | CLUSTER=id
+\begin{table}[!htbp]
+\centering
+\caption{Balanced three-month RunRD by price subpanel: Panel A; Listing-ID clustering}
+\scriptsize
+\setlength{\tabcolsep}{5pt}
+\begin{tabular}{l*{7}{c}}
+\toprule
+ & (1) & (2) & (3) & (4) & (5) & (6) & (7) \\
+\midrule
+FULL & -0.159$^{*}$ & -0.146$^{**}$ & -0.136$^{**}$ & -0.149$^{**}$ & -0.122$^{**}$ & -0.102$^{**}$ & -0.210$^{***}$ \\
+ & (0.086) & (0.074) & (0.064) & (0.067) & (0.056) & (0.051) & (0.080) \\
+$N_h$ & 740 & 740 & 1,596 & 993 & 1,574 & 2,171 & 777 \\
+\addlinespace
+Q1Q2 & 0.180 & 0.160 & 0.047 & 0.048 & -0.003 & -0.002 & 0.021 \\
+ & (0.174) & (0.157) & (0.098) & (0.102) & (0.075) & (0.065) & (0.120) \\
+$N_h$ & 412 & 412 & 909 & 511 & 800 & 1,078 & 513 \\
+\addlinespace
+Q2Q3 & -0.076 & -0.055 & -0.051 & -0.054 & -0.052 & -0.050 & -0.130 \\
+ & (0.100) & (0.091) & (0.069) & (0.090) & (0.073) & (0.066) & (0.106) \\
+$N_h$ & 444 & 444 & 932 & 510 & 835 & 1,109 & 592 \\
+\addlinespace
+Q3Q4 & -0.310$^{***}$ & -0.285$^{***}$ & -0.246$^{***}$ & -0.265$^{***}$ & -0.220$^{***}$ & -0.190$^{**}$ & -0.426$^{***}$ \\
+ & (0.103) & (0.093) & (0.084) & (0.086) & (0.081) & (0.077) & (0.120) \\
+$N_h$ & 417 & 417 & 891 & 482 & 774 & 1,093 & 311 \\
+
+\midrule
+$N_{full}$ & \multicolumn{7}{c}{3,693} \\
+\bottomrule
+\end{tabular}
+\begin{minipage}{0.98\textwidth}
+\footnotesize
+\textit{Notes:} The sample uses trim (1,0), imposes \texttt{first\_month\_number\_of\_reviews}$\geq40$ before trimming, and reports Panel A (\texttt{ex\_super=``t''}). Column (1) reports specification 1's bias-corrected coefficient and robust standard error. Columns (2)--(7) report conventional coefficients and conventional standard errors for specifications 1--6. Specifications 1--5 include quarter fixed effects; specification 6 omits them. \texttt{bwselect=``msetwo''}; \texttt{masspoints=``adjust''}. $N_h$ is the number of observations inside the estimation bandwidth and $N_{full}$ is the full pre-bandwidth subpanel sample size. $^{***}p\leq0.01$, $^{**}p\leq0.05$, $^{*}p\leq0.10$.
+\end{minipage}
+\end{table}
+\clearpage
+
+% FINAL SUBPANEL TABLE | TRIM=(1,0) | PANEL=B | CLUSTER=id
+\begin{table}[!htbp]
+\centering
+\caption{Balanced three-month RunRD by price subpanel: Panel B; Listing-ID clustering}
+\scriptsize
+\setlength{\tabcolsep}{5pt}
+\begin{tabular}{l*{7}{c}}
+\toprule
+ & (1) & (2) & (3) & (4) & (5) & (6) & (7) \\
+\midrule
+FULL & -0.164$^{**}$ & -0.149$^{**}$ & -0.110$^{**}$ & -0.113 & -0.142$^{**}$ & -0.122$^{**}$ & -0.260$^{**}$ \\
+ & (0.083) & (0.069) & (0.048) & (0.070) & (0.059) & (0.050) & (0.107) \\
+$N_h$ & 1,409 & 1,409 & 1,809 & 1,185 & 1,473 & 1,631 & 1,327 \\
+\addlinespace
+Q1Q2 & -0.200$^{**}$ & -0.182$^{**}$ & -0.176$^{***}$ & -0.149$^{*}$ & -0.184$^{**}$ & -0.177$^{**}$ & -0.238$^{**}$ \\
+ & (0.101) & (0.087) & (0.068) & (0.087) & (0.081) & (0.073) & (0.100) \\
+$N_h$ & 687 & 687 & 893 & 577 & 742 & 834 & 713 \\
+\addlinespace
+Q2Q3 & -0.177 & -0.214$^{**}$ & -0.192$^{***}$ & -0.156$^{*}$ & -0.184$^{**}$ & -0.161$^{**}$ & -0.215 \\
+ & (0.108) & (0.093) & (0.065) & (0.090) & (0.072) & (0.063) & (0.136) \\
+$N_h$ & 663 & 663 & 868 & 608 & 750 & 825 & 626 \\
+\addlinespace
+Q3Q4 & -0.236 & -0.244 & -0.166 & -0.188 & -0.189$^{*}$ & -0.134 & -0.481 \\
+ & (0.192) & (0.159) & (0.103) & (0.140) & (0.110) & (0.087) & (0.321) \\
+$N_h$ & 681 & 681 & 882 & 608 & 731 & 797 & 689 \\
+
+\midrule
+$N_{full}$ & \multicolumn{7}{c}{2,395} \\
+\bottomrule
+\end{tabular}
+\begin{minipage}{0.98\textwidth}
+\footnotesize
+\textit{Notes:} The sample uses trim (1,0), imposes \texttt{first\_month\_number\_of\_reviews}$\geq40$ before trimming, and reports Panel B (\texttt{ex\_super=``f''}). Column (1) reports specification 1's bias-corrected coefficient and robust standard error. Columns (2)--(7) report conventional coefficients and conventional standard errors for specifications 1--6. Specifications 1--5 include quarter fixed effects; specification 6 omits them. \texttt{bwselect=``msetwo''}; \texttt{masspoints=``adjust''}. $N_h$ is the number of observations inside the estimation bandwidth and $N_{full}$ is the full pre-bandwidth subpanel sample size. $^{***}p\leq0.01$, $^{**}p\leq0.05$, $^{*}p\leq0.10$.
+\end{minipage}
+\end{table}
+\clearpage

@@ -359,6 +359,10 @@ run_panel <- function(base_sample, panel) {
     OUTPUT_DIR,
     sprintf("placebo_%s.eps", panel_lower)
   )
+  pdf_file <- file.path(
+    OUTPUT_DIR,
+    sprintf("placebo_%s.pdf", panel_lower)
+  )
   ggplot2::ggsave(
     eps_file,
     plot,
@@ -368,6 +372,15 @@ run_panel <- function(base_sample, panel) {
     units = "in",
     onefile = FALSE,
     fallback_resolution = 600
+  )
+  ggplot2::ggsave(
+    pdf_file,
+    plot,
+    device = grDevices::cairo_pdf,
+    width = 12,
+    height = 8.5,
+    units = "in",
+    onefile = FALSE
   )
 
   cat(sprintf(
@@ -386,7 +399,8 @@ run_panel <- function(base_sample, panel) {
     true_se = true_fit$conv_se,
     conventional_rank = rank,
     denominator = denominator,
-    eps_file = eps_file
+    eps_file = eps_file,
+    pdf_file = pdf_file
   ))
 }
 

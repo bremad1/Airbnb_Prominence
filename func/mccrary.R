@@ -195,6 +195,14 @@ run_true_cutoff_density <- function(
       onefile = FALSE,
       fallback_resolution = 600
     )
+    ggsave(
+      file.path(output_dir, "density.pdf"),
+      density_plot$Estplot,
+      device = grDevices::cairo_pdf,
+      width = 8,
+      height = 5.5,
+      onefile = FALSE
+    )
 
   }
 
@@ -569,6 +577,14 @@ run_mccrary_rank <- function(
       height = 5.5,
       onefile = FALSE,
       fallback_resolution = 600
+    )
+    ggsave(
+      file.path(output_dir, "jump.pdf"),
+      jump_plot,
+      device = grDevices::cairo_pdf,
+      width = 9,
+      height = 5.5,
+      onefile = FALSE
     )
   }
 
